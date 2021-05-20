@@ -1,34 +1,23 @@
 package User;
 
 public class PrivateInfo{
-    private String id;
     private String firstName;
     private String lastName;
     private String address;
     private String phoneNumber;
 
     public PrivateInfo() {
-        this.id = "";
         this.firstName = "";
         this.lastName = "";
         this.address = "";
         this.phoneNumber = "";
     }
 
-    public PrivateInfo(String id, String firstName, String lastName, String address, String phoneNumber) {
-        this.id = id;
+    public PrivateInfo( String firstName, String lastName, String address, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFirstName() {

@@ -32,6 +32,10 @@ public class Client extends PrivateInfo implements generateID {
         return username;
     }
 
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
