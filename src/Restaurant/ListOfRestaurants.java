@@ -45,4 +45,8 @@ public class ListOfRestaurants {
     public void deleteSpecificItem(int index){
         listOfRestaurants.remove(index);
     }
+
+    public Restaurant getRestaurantByIndex(int index){
+        return listOfRestaurants.get(index);
+    }
 }

@@ -159,6 +159,22 @@ public class InitServices {
                     } else {
                         mainMenu.errorWrongOption(mainMenu, clientX, optionIn, optionInput);
                     }
+                } else if(optionIn.equalsIgnoreCase("4")){
+                    Scanner cityInput = new Scanner(System.in);
+                    System.out.print("Write a city: ");
+                    String cityIn = cityInput.nextLine();
+                    int t = 0;
+                    for(int i = 0 ; i < listOfRestaurants.sizeOfList() ; i++){
+                        if(listOfRestaurants.getRestaurantByIndex(i).getCity().equalsIgnoreCase(cityIn)){
+                            t++;
+                            System.out.println(t + ". " + listOfRestaurants.getRestaurantByIndex(i).getName());
+                            mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        }
+                    }
+                    if(t == 0){
+                        System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
+                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    }
                 }
             }
         }

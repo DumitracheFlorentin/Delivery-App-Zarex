@@ -13,13 +13,13 @@ public class MainMenu {
         System.out.println("1. See your profile");
         System.out.println("2. Make an order");
         System.out.println("3. See all the restaurants");
-        System.out.println("5. Find restaurants by city");
-        System.out.println("4. See the history of your orders");
+        System.out.println("4. Find restaurants by city");
+        System.out.println("5. See the history of your orders");
         if(client.getIsAdmin()){
-            System.out.println("5. Add a courier");
-            System.out.println("6. See all the orders");
-            System.out.println("7. See all the couriers");
-            System.out.println("8. Delete an user");
+            System.out.println("6. Add a courier");
+            System.out.println("7. See all the orders");
+            System.out.println("8. See all the couriers");
+            System.out.println("9. Delete an user");
         }
         System.out.println("0. Exit");
         System.out.println();
@@ -84,6 +84,18 @@ public class MainMenu {
 
     public void errorWrongOption(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
         System.out.println("Wrong option! You will be redirected to the menu!");
+        System.out.println();
+        mainMenu.showMenu(clientX);
+        System.out.println();
+        System.out.print("Your option: ");
+        optionIn = optionInput.nextLine();
+    }
+
+    public void goBackToMenu(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+        System.out.println();
+        System.out.print("Press ENTER to get back to the main menu: ");
+        Scanner goToMenuInput = new Scanner(System.in);
+        String goToMenuIn = goToMenuInput.nextLine();
         System.out.println();
         mainMenu.showMenu(clientX);
         System.out.println();
