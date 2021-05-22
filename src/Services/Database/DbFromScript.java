@@ -5,8 +5,7 @@ import Restaurant.Product;
 import Restaurant.Restaurant;
 import Restaurant.ListOfRestaurants;
 import Restaurant.Menus;
-import User.Client;
-import User.ListOfClients;
+import User.*;
 
 public class DbFromScript {
     // CLIENTS
@@ -15,11 +14,20 @@ public class DbFromScript {
     Client client3 = new Client("Mihaela", "MihaelaPW123", "MihaelaCristescu@yahoo.ro");
     Client client4 = new Client("Teodor", "TeodorPW123", "TeodorDunescu@gmail.com");
 
+    // CARS
+    CourierCar car1 = new CourierCar("BMW", "Seria3", "B99XMX", "RED");
+    CourierCar car2 = new CourierCar("Audi", "A4", "B999COL", "BLUE");
+
     // COURIERS
-//    Couriers courier1 = new Couriers("Mihai", "Mihai123", "Mihai@hau.ro",
-//            "Batailor, Bl. C2, Sc. 2", "Mihai", "Batan", "0735171671",15, 7, 1998, "Volvo", "B59ADC");
-//    Couriers courier2 = new Couriers("Denis", "DenisPW123", "denis@glovo.ro",
-//            "Aviatorilor, nr. 2", "Denis", "Mutu", "07151716381",15, 5, 1977, "BMW", "B999COC");
+    Courier courier1 = new Courier("Mihai", "Batan", "Batailor, Bl. C2, Sc. 2", "0735171671", car1);
+    Courier courier2 = new Courier("Denis", "Mutu", "Aviatorilor, nr. 2",  "07151716381",car2);
+
+    public ListOfCouriers getCouriersFromSimpleDB(ListOfCouriers listOfCouriers){
+        listOfCouriers.addCourier(courier1);
+        listOfCouriers.addCourier(courier2);
+
+        return listOfCouriers;
+    }
 
 
     public ListOfClients getClientsFromSimpleDB(ListOfClients listOfClients){

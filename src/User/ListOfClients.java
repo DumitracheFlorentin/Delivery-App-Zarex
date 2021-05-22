@@ -82,8 +82,4 @@ public class ListOfClients {
     public int sizeOfList(){
         return listOfClients.size();
     }
-
-
-
-
 }
