@@ -1,7 +1,10 @@
 package Services;
 
 import Restaurant.ListOfRestaurants;
+import Restaurant.Menus;
 import Restaurant.Menu;
+import Restaurant.Restaurant;
+import Restaurant.Product;
 import Services.Database.DbFromScript;
 import User.Client;
 import User.ListOfClients;
@@ -11,6 +14,7 @@ import java.util.Scanner;
 public class InitServices {
     ListOfClients listOfClients = new ListOfClients();
     ListOfRestaurants listOfRestaurants = new ListOfRestaurants();
+    Menus listOfMenus = new Menus();
     StartupMenu loginOrRegMenu = new StartupMenu();
     MainMenu mainMenu = new MainMenu();
     boolean loggedUser = false;
@@ -24,7 +28,7 @@ public class InitServices {
         // Init DB
         firstDBConnection.getClientsFromSimpleDB(listOfClients);
         firstDBConnection.getRestaurantsFromSimpleDB(listOfRestaurants);
-        listOfRestaurants.showRestaurants();
+        firstDBConnection.getMenuFromSimpleDB(listOfMenus);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";
@@ -77,6 +81,10 @@ public class InitServices {
                     System.out.println();
                     System.out.println("Options:");
                     System.out.println("1. Back to menu");
+                    if(clientX.getIsAdmin()){
+                        System.out.println("2. Add restaurant");
+                        System.out.println("3. Delete restaurant");
+                    }
                     System.out.print("Your option: ");
                     String secOptionIn = secOptionInput.nextLine();
 
@@ -85,13 +93,71 @@ public class InitServices {
                         System.out.println();
                         System.out.print("Your option: ");
                         optionIn = optionInput.nextLine();
+                    } else if(secOptionIn.equalsIgnoreCase("2") && clientX.getIsAdmin()){
+                        Scanner nameInput = new Scanner(System.in);
+                        Scanner addressInput = new Scanner(System.in);
+                        Scanner phoneNumberInput = new Scanner(System.in);
+                        Scanner cityInput = new Scanner(System.in);
+                        Scanner ratingInput = new Scanner(System.in);
+                        Scanner numberMenuInput = new Scanner(System.in);
+
+                        System.out.println("Firstly, you need to complete some informations about the new restaurant!");
+                        System.out.print("Name: ");
+                        String nameIn = nameInput.nextLine();
+                        System.out.print("Address: ");
+                        String addressIn = addressInput.nextLine();
+                        System.out.print("Phone number: ");
+                        String phoneNumberIn = phoneNumberInput.nextLine();
+                        System.out.print("City: ");
+                        String cityIn = cityInput.nextLine();
+                        System.out.print("Rating: ");
+                        Float ratingIn = ratingInput.nextFloat();
+                        System.out.println("Create a menu: ");
+                        System.out.print("How many products do you want to have in menu?: ");
+
+                        Menu menuX = new Menu();
+
+                        int numberMenuIn = numberMenuInput.nextInt();
+                        for(int i = 0 ; i < numberMenuIn ; i++){
+                            Scanner nameProductInput = new Scanner(System.in);
+                            Scanner priceProductInput = new Scanner(System.in);
+                            Scanner ratingProductInput = new Scanner(System.in);
+                            Scanner descriptionProductInput = new Scanner(System.in);
+
+                            System.out.println("Product number " + (i+1));
+                            System.out.print("Name: " );
+                            String nameProductIn = nameProductInput.nextLine();
+                            System.out.print("Price: " );
+                            Float priceProductIn = priceProductInput.nextFloat();
+                            System.out.print("Rating: " );
+                            Float ratingProductIn = ratingProductInput.nextFloat();
+                            System.out.print("Description: " );
+                            String descriptionProductIn = descriptionProductInput.nextLine();
+                            System.out.println();
+
+                            Product productX = new Product(nameProductIn, priceProductIn, ratingProductIn, descriptionProductIn);
+                            menuX.addProduct(productX);
+                        }
+
+                        Restaurant newRestaurant = new Restaurant(nameIn, phoneNumberIn, addressIn, cityIn, ratingIn, menuX);
+                        listOfRestaurants.addRestaurant(newRestaurant);
+
+                    } else if(secOptionIn.equalsIgnoreCase("3") && clientX.getIsAdmin()){
+                        Scanner indexOfDeletedItem = new Scanner(System.in);
+
+                        mainMenu.seeAllTheRestaurants(listOfRestaurants);
+                        System.out.println("0. Back to menu");
+                        System.out.println();
+                        System.out.print("Your option:");
+                        int deletedItem = indexOfDeletedItem.nextInt();
+                        if(deletedItem > 0 && deletedItem < listOfRestaurants.sizeOfList()){
+                            listOfRestaurants.deleteSpecificItem(deletedItem - 1);
+                        }else {
+                            mainMenu.errorWrongOption(mainMenu, clientX, optionIn, optionInput);
+                        }
+
                     } else {
-                        System.out.println("Wrong option! You will be redirected to the menu!");
-                        System.out.println();
-                        mainMenu.showMenu(clientX);
-                        System.out.println();
-                        System.out.print("Your option: ");
-                        optionIn = optionInput.nextLine();
+                        mainMenu.errorWrongOption(mainMenu, clientX, optionIn, optionInput);
                     }
                 }
             }

@@ -20,8 +20,20 @@ public class Client extends PrivateInfo implements generateID {
         this.isAdmin = false;
     }
 
+    public Client(String username, String password, String email, boolean isAdmin) {
+        this.id = generateID.genID();
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setIsAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public void setId(String id) {

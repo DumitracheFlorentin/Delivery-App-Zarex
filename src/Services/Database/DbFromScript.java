@@ -4,10 +4,16 @@ import Restaurant.Menu;
 import Restaurant.Product;
 import Restaurant.Restaurant;
 import Restaurant.ListOfRestaurants;
+import Restaurant.Menus;
 import User.Client;
 import User.ListOfClients;
 
 public class DbFromScript {
+    // CLIENTS
+    Client client1 = new Client("Florentin", "FlorentinPW123", "florentin@ljb.ro", true);
+    Client client2 = new Client("Alexandru", "AlexandruPW123", "AlexandruDumitrescu@gmail.com");
+    Client client3 = new Client("Mihaela", "MihaelaPW123", "MihaelaCristescu@yahoo.ro");
+    Client client4 = new Client("Teodor", "TeodorPW123", "TeodorDunescu@gmail.com");
 
     // COURIERS
 //    Couriers courier1 = new Couriers("Mihai", "Mihai123", "Mihai@hau.ro",
@@ -17,17 +23,42 @@ public class DbFromScript {
 
 
     public ListOfClients getClientsFromSimpleDB(ListOfClients listOfClients){
-        // CLIENTS
-        Client client1 = new Client("Florentin", "FlorentinPW123", "florentin@ljb.ro");
-        Client client2 = new Client("Alexandru", "AlexandruPW123", "AlexandruDumitrescu@gmail.com");
-        Client client3 = new Client("Mihaela", "MihaelaPW123", "MihaelaCristescu@yahoo.ro");
-        Client client4 = new Client("Teodor", "TeodorPW123", "TeodorDunescu@gmail.com");
-
         listOfClients.addClient(client1);
         listOfClients.addClient(client2);
         listOfClients.addClient(client3);
         listOfClients.addClient(client4);
         return listOfClients;
+    }
+
+    public Menus getMenuFromSimpleDB(Menus listOfMenus){
+        // PRODUCTS
+        Product product1 = new Product("Coaste de porc", 100F, 5F, "Test");
+        Product product2 = new Product("Piept de pui in sos de lamaie", 50F, 4.5F, "Test");
+        Product product3 = new Product("Piept de rata in sos de fructe de padure", 60F, 5F, "Test");
+        Product product4 = new Product("Snitel de porc", 30F, 3.5F, "Test");
+        Product product5 = new Product("Paste carbonara", 400F, 3F, "Test");
+        Product product6 = new Product("Ciorba de perisoare", 15F, 4F, "Test");
+
+        Menu menu1 = new Menu();
+        menu1.addProduct(product1);
+        menu1.addProduct(product5);
+        menu1.addProduct(product6);
+
+        Menu menu2 = new Menu();
+        menu2.addProduct(product1);
+        menu2.addProduct(product3);
+        menu2.addProduct(product4);
+
+        Menu menu3 = new Menu();
+        menu3.addProduct(product2);
+        menu3.addProduct(product3);
+        menu3.addProduct(product6);
+
+        listOfMenus.addMenu(menu1);
+        listOfMenus.addMenu(menu2);
+        listOfMenus.addMenu(menu3);
+
+        return listOfMenus;
     }
 
     public ListOfRestaurants getRestaurantsFromSimpleDB(ListOfRestaurants listOfRestaurants){

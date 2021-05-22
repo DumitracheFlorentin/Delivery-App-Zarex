@@ -11,6 +11,10 @@ public class Restaurant implements generateID {
     private Float rating;
     private Menu menu;
 
+    public Restaurant(){
+
+    }
+
     public Restaurant(String name, String address, String phoneNumber, String city, Float rating, Menu menu) {
         this.id = generateID.genID();
         this.name = name;

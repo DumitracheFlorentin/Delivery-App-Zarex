@@ -16,12 +16,10 @@ public class MainMenu {
         System.out.println("5. Find restaurants by city");
         System.out.println("4. See the history of your orders");
         if(client.getIsAdmin()){
-            System.out.println("6. Add restaurant");
-            System.out.println("7. Add a courier");
-            System.out.println("8. See all the orders");
-            System.out.println("9. See all the couriers");
-            System.out.println("10. Delete a restaurant");
-            System.out.println("11. Delete an user");
+            System.out.println("5. Add a courier");
+            System.out.println("6. See all the orders");
+            System.out.println("7. See all the couriers");
+            System.out.println("8. Delete an user");
         }
         System.out.println("0. Exit");
         System.out.println();
@@ -51,7 +49,7 @@ public class MainMenu {
 
     public void seeAllTheRestaurants(ListOfRestaurants listOfRestaurants){
         for(int i = 1 ; i <= listOfRestaurants.sizeOfList() ; i++){
-            System.out.println(i+1 + ". " + listOfRestaurants.getRestaurantName(i) );
+            System.out.println(i + ". " + listOfRestaurants.getRestaurantName(i) );
         }
     }
 
@@ -82,6 +80,15 @@ public class MainMenu {
         System.out.println("Last name: " + client.getLastName());
         System.out.println("Address: " + client.getAddress());
         System.out.println("Phone number: " + client.getPhoneNumber());
+    }
+
+    public void errorWrongOption(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+        System.out.println("Wrong option! You will be redirected to the menu!");
+        System.out.println();
+        mainMenu.showMenu(clientX);
+        System.out.println();
+        System.out.print("Your option: ");
+        optionIn = optionInput.nextLine();
     }
 
 }

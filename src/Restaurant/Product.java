@@ -60,6 +60,7 @@ public class Product implements generateID {
                 ", Name = '" + name + '\'' +
                 ", Price = '" + price + '\'' +
                 ", Rating = '" + rating + '\'' +
+                ", Description = '" + description + '\'' +
                 '}';
     }
 }

@@ -41,4 +41,8 @@ public class ListOfRestaurants {
     public int sizeOfList(){
         return listOfRestaurants.size();
     }
+
+    public void deleteSpecificItem(int index){
+        listOfRestaurants.remove(index);
+    }
 }

@@ -53,6 +53,7 @@ public class StartupMenu {
                         clientX.setUsername(listOfClients.getSpecificClientByName(usernameIn).getUsername());
                         clientX.setPassword(listOfClients.getSpecificClientByName(usernameIn).getPassword());
                         clientX.setEmail(listOfClients.getSpecificClientByName(usernameIn).getEmail());
+                        clientX.setIsAdmin(listOfClients.getSpecificClientByName(usernameIn).getIsAdmin());
                         return true;
                     } else {
                         System.out.println("Username or password incorrect! Try Again!");
