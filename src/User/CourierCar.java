@@ -51,4 +51,14 @@ public class CourierCar {
     public void setColor(String color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "Type='" + type + '\'' +
+                ", Model='" + model + '\'' +
+                ", Number='" + number + '\'' +
+                ", Color='" + color + '\'' +
+                '}';
+    }
 }

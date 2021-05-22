@@ -21,4 +21,8 @@ public class ListOfCouriers {
         return listOfCouriers.size();
     }
 
+    public Courier getCourierByIndex(int index){
+        return listOfCouriers.get(index);
+    }
+
 }

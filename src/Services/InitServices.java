@@ -7,13 +7,16 @@ import Restaurant.Restaurant;
 import Restaurant.Product;
 import Services.Database.DbFromScript;
 import User.Client;
+import User.Courier;
 import User.ListOfClients;
+import User.ListOfCouriers;
 
 import java.util.Scanner;
 
 public class InitServices {
     ListOfClients listOfClients = new ListOfClients();
     ListOfRestaurants listOfRestaurants = new ListOfRestaurants();
+    ListOfCouriers listOfCouriers = new ListOfCouriers();
     Menus listOfMenus = new Menus();
     StartupMenu loginOrRegMenu = new StartupMenu();
     MainMenu mainMenu = new MainMenu();
@@ -29,6 +32,7 @@ public class InitServices {
         firstDBConnection.getClientsFromSimpleDB(listOfClients);
         firstDBConnection.getRestaurantsFromSimpleDB(listOfRestaurants);
         firstDBConnection.getMenuFromSimpleDB(listOfMenus);
+        firstDBConnection.getCouriersFromSimpleDB(listOfCouriers);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";
@@ -175,7 +179,32 @@ public class InitServices {
                         System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
                         mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
                     }
+                } else if(optionIn.equalsIgnoreCase("6") && clientX.getIsAdmin()){
+                    System.out.println("Registrate a new courier");
+                    System.out.println();
+
+                    Courier courierX = new Courier();
+
+                    mainMenu.addNewCourier(courierX);
+                    listOfCouriers.addCourier(courierX);
+
+                    System.out.println("Courier registered!");
+
+                } else if(optionIn.equalsIgnoreCase("8") && clientX.getIsAdmin()){
+                    for(int i = 0 ; i < listOfCouriers.getSizeOfList() ; i++){
+                        System.out.println(listOfCouriers.getCourierByIndex(i));
+                    }
+                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                } else if(optionIn.equalsIgnoreCase("9") && clientX.getIsAdmin()){
+                    mainMenu.deleteSpecificCourier(listOfCouriers);
+                } else if (optionIn.equalsIgnoreCase("10") && clientX.getIsAdmin()){
+                    mainMenu.deleteSpecificClient(listOfClients);
                 }
+
+                mainMenu.showMenu(clientX);
+                System.out.println();
+                System.out.print("Your option: ");
+                optionIn = optionInput.nextLine();
             }
         }
     }

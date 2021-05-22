@@ -82,4 +82,8 @@ public class ListOfClients {
     public int sizeOfList(){
         return listOfClients.size();
     }
+
+    public void removeClient(int index){
+        listOfClients.remove(index);
+    }
 }

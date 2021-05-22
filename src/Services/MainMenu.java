@@ -1,7 +1,8 @@
 package Services;
 
+import Main.Main;
 import Restaurant.ListOfRestaurants;
-import User.Client;
+import User.*;
 
 import java.util.Scanner;
 
@@ -19,7 +20,8 @@ public class MainMenu {
             System.out.println("6. Add a courier");
             System.out.println("7. See all the orders");
             System.out.println("8. See all the couriers");
-            System.out.println("9. Delete an user");
+            System.out.println("9. Delete courier");
+            System.out.println("10. Delete user");
         }
         System.out.println("0. Exit");
         System.out.println();
@@ -73,6 +75,41 @@ public class MainMenu {
         client.setAddress(addressIn);
     }
 
+    public void addNewCourier(Courier courier){
+        Scanner firstNameInput = new Scanner(System.in);
+        Scanner lastNameInput = new Scanner(System.in);
+        Scanner addressInput = new Scanner(System.in);
+        Scanner phoneNumberInput = new Scanner(System.in);
+        Scanner carTypeInput = new Scanner(System.in);
+        Scanner carModelInput = new Scanner(System.in);
+        Scanner carNumberInput = new Scanner(System.in);
+        Scanner carColorInput = new Scanner(System.in);
+
+        System.out.print("First Name: ");
+        String firstNameIn = firstNameInput.nextLine();
+        courier.setFirstName(firstNameIn);
+        System.out.print("Last Name: ");
+        String lastNameIn = lastNameInput.nextLine();
+        courier.setLastName(lastNameIn);
+        System.out.print("Phone Number: ");
+        String phoneNumberIn = phoneNumberInput.nextLine();
+        courier.setPhoneNumber(phoneNumberIn);
+        System.out.print("Address: ");
+        String addressIn = addressInput.nextLine();
+        courier.setAddress(addressIn);
+        System.out.print("Car Type: ");
+        String carTypeIn = carTypeInput.nextLine();
+        System.out.print("Car Model: ");
+        String carModelIn = carModelInput.nextLine();
+        System.out.print("Car Number: ");
+        String carNumberIn = carNumberInput.nextLine();
+        System.out.print("Car Color: ");
+        String carColorIn = carColorInput.nextLine();
+
+        CourierCar carX = new CourierCar(carTypeIn, carModelIn, carNumberIn,carColorIn);
+        courier.setCar(carX);
+    }
+
     public void getPersonalInfo(Client client){
         System.out.println();
         System.out.println("Your personal info: ");
@@ -91,16 +128,90 @@ public class MainMenu {
         optionIn = optionInput.nextLine();
     }
 
+    public void redirectedToMenu(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+        System.out.println("You will be redirected to the menu!");
+        System.out.println();
+        mainMenu.showMenu(clientX);
+        System.out.println();
+        System.out.print("Your option: ");
+        optionIn = optionInput.nextLine();
+    }
+
     public void goBackToMenu(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
         System.out.println();
         System.out.print("Press ENTER to get back to the main menu: ");
         Scanner goToMenuInput = new Scanner(System.in);
         String goToMenuIn = goToMenuInput.nextLine();
         System.out.println();
-        mainMenu.showMenu(clientX);
-        System.out.println();
-        System.out.print("Your option: ");
-        optionIn = optionInput.nextLine();
+    }
+
+    public void deleteSpecificClient(ListOfClients listOfClients){
+        int i = 0;
+        for(i = 0 ; i < listOfClients.sizeOfList() ; i++){
+            System.out.println((i+1) + ". " + listOfClients.getSpecificClient(i));
+        }
+
+        if(listOfClients.sizeOfList() > 0){
+            System.out.println((i+1) + ". Back to menu");
+            System.out.println();
+            System.out.print("Your option: ");
+            Scanner deleteCourierInput = new Scanner(System.in);
+            int deleteCourierIn = deleteCourierInput.nextInt();
+
+            while(deleteCourierIn < 0 || deleteCourierIn > i + 1){
+                System.out.println("Something went wrong! Try another value.");
+                deleteCourierIn = deleteCourierInput.nextInt();
+            }
+
+            if(deleteCourierIn > 0 && deleteCourierIn <= i){
+                if(listOfClients.getSpecificClient(deleteCourierIn - 1).getIsAdmin()){
+                    System.out.println("Error! You cannot delete this account!");
+                }else{
+                    listOfClients.removeClient(deleteCourierIn - 1);
+                    System.out.println("Success!");
+                }
+
+            }
+        } else {
+            System.out.println("There is no courier registered to the DB!");
+            System.out.println();
+            System.out.print("Press ENTER to get back to the main menu: ");
+            Scanner goToMenuInput = new Scanner(System.in);
+            String goToMenuIn = goToMenuInput.nextLine();
+            System.out.println();
+        }
+    }
+
+    public void deleteSpecificCourier(ListOfCouriers listOfCouriers){
+        int i = 0;
+        for(i = 0 ; i < listOfCouriers.getSizeOfList() ; i++){
+            System.out.println((i+1) + ". " + listOfCouriers.getCourierByIndex(i).getFirstName() + " " + listOfCouriers.getCourierByIndex(i).getLastName());
+        }
+
+        if(listOfCouriers.getSizeOfList() > 0){
+            System.out.println((i+1) + ". Back to menu");
+            System.out.println();
+            System.out.print("Your option: ");
+            Scanner deleteCourierInput = new Scanner(System.in);
+            int deleteCourierIn = deleteCourierInput.nextInt();
+
+            while(deleteCourierIn < 0 || deleteCourierIn > i + 1){
+                System.out.println("Something went wrong! Try another value.");
+                deleteCourierIn = deleteCourierInput.nextInt();
+            }
+
+            if(deleteCourierIn > 0 && deleteCourierIn <= i){
+                listOfCouriers.removeCourier(deleteCourierIn - 1);
+                System.out.println("Success!");
+            }
+        } else {
+            System.out.println("There is no courier registered to the DB!");
+            System.out.println();
+            System.out.print("Press ENTER to get back to the main menu: ");
+            Scanner goToMenuInput = new Scanner(System.in);
+            String goToMenuIn = goToMenuInput.nextLine();
+            System.out.println();
+        }
     }
 
 }

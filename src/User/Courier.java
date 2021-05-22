@@ -4,6 +4,9 @@ public class Courier extends PrivateInfo{
     private CourierCar car;
     private String status;
 
+    public Courier() {
+    }
+
     public Courier(String firstName, String lastName, String address, String phoneNumber, CourierCar car, String status) {
         super(firstName, lastName, address, phoneNumber);
         this.car = car;
@@ -30,5 +33,17 @@ public class Courier extends PrivateInfo{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Courier{" +
+                "First Name='" + getFirstName() + '\'' +
+                ", Last Name='" + getLastName() + '\'' +
+                ", Phone Number='" + getPhoneNumber() + '\'' +
+                ", Address='" + getAddress() + '\'' +
+                ", Status='" + status + '\'' +
+                ", Car='" + car + '\'' +
+                '}';
     }
 }
