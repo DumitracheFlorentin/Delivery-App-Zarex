@@ -1,5 +1,6 @@
 package Services;
 
+import Restaurant.ListOfRestaurants;
 import User.Client;
 
 import java.util.Scanner;
@@ -23,6 +24,8 @@ public class MainMenu {
             System.out.println("11. Delete an user");
         }
         System.out.println("0. Exit");
+        System.out.println();
+
     }
 
     public void seeProfile(Client client){
@@ -43,6 +46,12 @@ public class MainMenu {
             getPersonalInfo(client);
         } else {
             getPersonalInfo(client);
+        }
+    }
+
+    public void seeAllTheRestaurants(ListOfRestaurants listOfRestaurants){
+        for(int i = 1 ; i <= listOfRestaurants.sizeOfList() ; i++){
+            System.out.println(i+1 + ". " + listOfRestaurants.getRestaurantName(i) );
         }
     }
 

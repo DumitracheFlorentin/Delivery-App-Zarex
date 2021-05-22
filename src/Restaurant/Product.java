@@ -9,7 +9,7 @@ public class Product implements generateID {
     private float rating;
     private String description;
 
-    public Product(String id, String name, float price, float rating, String description) {
+    public Product(String name, float price, float rating, String description) {
         this.id = generateID.genID();
         this.name = name;
         this.price = price;
@@ -51,5 +51,15 @@ public class Product implements generateID {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", Name = '" + name + '\'' +
+                ", Price = '" + price + '\'' +
+                ", Rating = '" + rating + '\'' +
+                '}';
     }
 }
