@@ -56,8 +56,7 @@ public class Product implements generateID {
     @Override
     public String toString() {
         return "Product{" +
-                "id='" + id + '\'' +
-                ", Name = '" + name + '\'' +
+                "Name = '" + name + '\'' +
                 ", Price = '" + price + '\'' +
                 ", Rating = '" + rating + '\'' +
                 ", Description = '" + description + '\'' +

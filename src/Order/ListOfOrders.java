@@ -15,7 +15,7 @@ public class ListOfOrders {
         return listOfOrders.size();
     }
 
-    public void addProduct(Product x){
+    public void addOrder(Order x){
         listOfOrders.add(x);
     }
 

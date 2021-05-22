@@ -17,6 +17,15 @@ public class Menu {
         System.out.println(menu);
     }
 
+    public Product getSpecificProductFromMenu(int index){
+        return menu.get(index);
+    }
+
+    public int sizeOfList(){
+        return menu.size();
+    }
+
+
     @Override
     public String toString() {
         return menu.toString();

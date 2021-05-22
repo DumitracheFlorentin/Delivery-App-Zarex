@@ -80,8 +80,7 @@ public class Restaurant implements generateID {
     @Override
     public String toString() {
         return "Restaurant{" +
-                "id='" + id + '\'' +
-                ", Name = '" + name + '\'' +
+                "Name = '" + name + '\'' +
                 ", Address = '" + address + '\'' +
                 ", Phone = '" + phoneNumber + '\'' +
                 ", Rating = '" + rating + '\'' +

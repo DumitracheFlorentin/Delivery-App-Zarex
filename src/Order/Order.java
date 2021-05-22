@@ -6,18 +6,16 @@ public class Order implements generateID {
     private String id;
     private String restaurantID;
     private String clientUsername;
-    private String totalPrice;
-    private ListOfProducts listOfProducts;
+    private Cart cart;
 
-    public Order(){}
-
-    public Order(String restaurantID, String clientUsername, String totalPrice, ListOfProducts listOfProducts) {
+    public Order( String restaurantID, String clientUsername, Cart cart) {
         this.id = generateID.genID();
         this.restaurantID = restaurantID;
         this.clientUsername = clientUsername;
-        this.totalPrice = totalPrice;
-        this.listOfProducts = listOfProducts;
+        this.cart = cart;
     }
+
+    public Order(){}
 
     public String getId() {
         return id;
@@ -39,19 +37,20 @@ public class Order implements generateID {
         this.clientUsername = clientUsername;
     }
 
-    public String getTotalPrice() {
-        return totalPrice;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public ListOfProducts getListOfProducts() {
-        return listOfProducts;
-    }
-
-    public void setListOfProducts(ListOfProducts listOfProducts) {
-        this.listOfProducts = listOfProducts;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "ID-Restaurant ='" + restaurantID + '\'' +
+                ", Client-Username = '" + clientUsername + '\'' +
+                ", Cart = '" + cart.getProducts() + '\'' +
+                '}';
     }
 }
