@@ -8,16 +8,25 @@ public class Restaurant implements generateID {
     private String phoneNumber;
     private String address;
     private String city;
+    private Float rating;
     private Menu menu;
 
-
-    public Restaurant(String name, String phoneNumber, String address, String city, Menu menu) {
+    public Restaurant(String name, String address, String phoneNumber, String city, Float rating, Menu menu) {
         this.id = generateID.genID();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.city = city;
+        this.rating = rating;
         this.menu = menu;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 
     public Menu getMenu() {
@@ -62,5 +71,17 @@ public class Restaurant implements generateID {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id='" + id + '\'' +
+                ", Name = '" + name + '\'' +
+                ", Address = '" + address + '\'' +
+                ", Phone = '" + phoneNumber + '\'' +
+                ", Rating = '" + rating + '\'' +
+                ", Menu = '" + menu.getListOfProducts() + '\'' +
+                '}';
     }
 }
