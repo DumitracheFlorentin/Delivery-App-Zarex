@@ -16,9 +16,11 @@ public class MainMenu {
         System.out.println("4. See the history of your orders");
         if(client.getIsAdmin()){
             System.out.println("6. Add restaurant");
-            System.out.println("7. Delete a restaurant");
-            System.out.println("8. Delete a user");
-            System.out.println("9. See all the orders");
+            System.out.println("7. Add a courier");
+            System.out.println("8. See all the orders");
+            System.out.println("9. See all the couriers");
+            System.out.println("10. Delete a restaurant");
+            System.out.println("11. Delete an user");
         }
         System.out.println("0. Exit");
     }
