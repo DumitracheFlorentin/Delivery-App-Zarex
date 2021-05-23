@@ -1,8 +1,8 @@
 package User;
-import Services.generateID;
+import Services.GenerateID;
 
 
-public class Client extends PrivateInfo implements generateID {
+public class Client extends PrivateInfo implements GenerateID {
     private String id;
     private String username;
     private String password;
@@ -13,7 +13,7 @@ public class Client extends PrivateInfo implements generateID {
     }
 
     public Client(String username, String password, String email) {
-        this.id = generateID.genID();
+        this.id = GenerateID.genID();
         this.username = username;
         this.password = password;
         this.email = email;
@@ -21,7 +21,7 @@ public class Client extends PrivateInfo implements generateID {
     }
 
     public Client(String username, String password, String email, boolean isAdmin) {
-        this.id = generateID.genID();
+        this.id = GenerateID.genID();
         this.username = username;
         this.password = password;
         this.email = email;

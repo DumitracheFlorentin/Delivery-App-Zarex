@@ -1,12 +1,11 @@
 package Services;
 
-import Main.Main;
 import Restaurant.ListOfRestaurants;
 import User.*;
 
 import java.util.Scanner;
 
-public class MainMenu {
+public class MenuMethods {
 
     public void showMenu(Client client){
         System.out.println("Hello " + client.getUsername() + "! Glad to have you back!");
@@ -119,7 +118,7 @@ public class MainMenu {
         System.out.println("Phone number: " + client.getPhoneNumber());
     }
 
-    public void errorWrongOption(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+    public void errorWrongOption(MenuMethods mainMenu, Client clientX, String optionIn, Scanner optionInput){
         System.out.println("Wrong option! You will be redirected to the menu!");
         System.out.println();
         mainMenu.showMenu(clientX);
@@ -128,7 +127,7 @@ public class MainMenu {
         optionIn = optionInput.nextLine();
     }
 
-    public void redirectedToMenu(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+    public void redirectedToMenu(MenuMethods mainMenu, Client clientX, String optionIn, Scanner optionInput){
         System.out.println("You will be redirected to the menu!");
         System.out.println();
         mainMenu.showMenu(clientX);
@@ -137,7 +136,7 @@ public class MainMenu {
         optionIn = optionInput.nextLine();
     }
 
-    public void goBackToMenu(MainMenu mainMenu, Client clientX, String optionIn, Scanner optionInput){
+    public void goBackToMenu(MenuMethods mainMenu, Client clientX, String optionIn, Scanner optionInput){
         System.out.println();
         System.out.print("Press ENTER to get back to the main menu: ");
         Scanner goToMenuInput = new Scanner(System.in);

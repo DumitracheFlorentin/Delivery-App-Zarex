@@ -1,8 +1,8 @@
 package Restaurant;
 
-import Services.generateID;
+import Services.GenerateID;
 
-public class Product implements generateID {
+public class Product implements GenerateID {
     private String id;
     private String name;
     private float price;
@@ -10,7 +10,7 @@ public class Product implements generateID {
     private String description;
 
     public Product(String name, float price, float rating, String description) {
-        this.id = generateID.genID();
+        this.id = GenerateID.genID();
         this.name = name;
         this.price = price;
         this.rating = rating;

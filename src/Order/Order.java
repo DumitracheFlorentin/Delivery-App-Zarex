@@ -1,16 +1,16 @@
 package Order;
 
 import Cart.Cart;
-import Services.generateID;
+import Services.GenerateID;
 
-public class Order implements generateID {
+public class Order implements GenerateID {
     private String id;
     private String restaurantID;
     private String clientUsername;
     private Cart cart;
 
     public Order( String restaurantID, String clientUsername, Cart cart) {
-        this.id = generateID.genID();
+        this.id = GenerateID.genID();
         this.restaurantID = restaurantID;
         this.clientUsername = clientUsername;
         this.cart = cart;

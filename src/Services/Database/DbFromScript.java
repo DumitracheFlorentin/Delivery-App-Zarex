@@ -40,11 +40,11 @@ public class DbFromScript {
 
     public Menus getMenuFromSimpleDB(Menus listOfMenus){
         // PRODUCTS
-        Product product1 = new Product("Coaste de porc", 100F, 5F, "Test");
+        Product product1 = new Product("Coaste de porc", 70F, 5F, "Test");
         Product product2 = new Product("Piept de pui in sos de lamaie", 50F, 4.5F, "Test");
         Product product3 = new Product("Piept de rata in sos de fructe de padure", 60F, 5F, "Test");
         Product product4 = new Product("Snitel de porc", 30F, 3.5F, "Test");
-        Product product5 = new Product("Paste carbonara", 400F, 3F, "Test");
+        Product product5 = new Product("Paste carbonara", 40F, 3F, "Test");
         Product product6 = new Product("Ciorba de perisoare", 15F, 4F, "Test");
 
         Menu menu1 = new Menu();

@@ -1,8 +1,8 @@
 package Restaurant;
 
-import Services.generateID;
+import Services.GenerateID;
 
-public class Restaurant implements generateID {
+public class Restaurant implements GenerateID {
     private String id;
     private String name;
     private String phoneNumber;
@@ -16,7 +16,7 @@ public class Restaurant implements generateID {
     }
 
     public Restaurant(String name, String address, String phoneNumber, String city, Float rating, Menu menu) {
-        this.id = generateID.genID();
+        this.id = GenerateID.genID();
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;

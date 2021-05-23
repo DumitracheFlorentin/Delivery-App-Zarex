@@ -1,7 +1,7 @@
 package Services;
 import java.util.UUID;
 
-public interface generateID {
+public interface GenerateID {
     static String genID ()
     {
         return UUID.randomUUID().toString();

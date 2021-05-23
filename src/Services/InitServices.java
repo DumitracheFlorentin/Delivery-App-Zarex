@@ -2,7 +2,6 @@ package Services;
 
 import Cart.Cart;
 import Order.ListOfOrders;
-import Order.Order;
 import Restaurant.ListOfRestaurants;
 import Restaurant.Menus;
 import Restaurant.Menu;
@@ -18,14 +17,19 @@ import User.ListOfCouriers;
 import java.util.Scanner;
 
 public class InitServices {
+    // INIT LIST OF CLIENTS
     ListOfClients listOfClients = new ListOfClients();
+
+    // INIT LIST OF RESTAURANTS
     ListOfRestaurants listOfRestaurants = new ListOfRestaurants();
+
+    // INIT LIST OF COURIERS
     ListOfCouriers listOfCouriers = new ListOfCouriers();
+
+    // INIT LIST OF MENUS
     Menus listOfMenus = new Menus();
-    StartupMenu loginOrRegMenu = new StartupMenu();
-    MainMenu mainMenu = new MainMenu();
-    boolean loggedUser = false;
-    Client clientX = new Client();
+
+    // INIT LIST OF ORDERS
     ListOfOrders listOfOrders = new ListOfOrders();
 
     // INIT A CART
@@ -33,6 +37,16 @@ public class InitServices {
 
     // Init DB
     DbFromScript firstDBConnection = new DbFromScript();
+
+    // METHODS
+    StartupMenu loginOrRegMenu = new StartupMenu();
+    MenuMethods methodsMenu = new MenuMethods();
+    CartMethods cartMethods = new CartMethods();
+    CheckoutMethods checkoutMethods = new CheckoutMethods();
+
+    // VARIABLES
+    boolean loggedUser = false;
+    Client clientX = new Client();
 
 
     public void welcomeApp(){
@@ -61,7 +75,7 @@ public class InitServices {
 
         if(loggedUser){
             System.out.println("Success!");
-            mainMenu.showMenu(clientX);
+            methodsMenu.showMenu(clientX);
             System.out.println();
             System.out.print("Your option: ");
             String optionIn = optionInput.nextLine();
@@ -71,18 +85,20 @@ public class InitServices {
             while(!optionIn.equalsIgnoreCase("0")){
                 if(optionIn.equalsIgnoreCase("1")){
 
-                    mainMenu.seeProfile(clientX);
+                    methodsMenu.seeProfile(clientX);
+
                     System.out.println();
                     System.out.println("Options:");
                     System.out.println("1. Edit your data");
                     System.out.println("2. Back to menu");
                     System.out.print("Your option: ");
+
                     String secOptionIn = secOptionInput.nextLine();
 
                     if(secOptionIn.equalsIgnoreCase("1")){
-                        mainMenu.editPersonalInfo(clientX);
+                        methodsMenu.editPersonalInfo(clientX);
                     }else if(secOptionIn.equalsIgnoreCase("2")){
-                        mainMenu.showMenu(clientX);
+                        methodsMenu.showMenu(clientX);
                         System.out.println();
                         System.out.print("Your option: ");
                         optionIn = optionInput.nextLine();
@@ -95,15 +111,18 @@ public class InitServices {
                             clientX.getPhoneNumber().equalsIgnoreCase("")){
                         System.out.println("It looks like you just registered your account! Let's setup your private informations first!");
 
-                        mainMenu.editPersonalInfo(clientX);
+                        methodsMenu.editPersonalInfo(clientX);
+
                         System.out.println("Now you can come back to make an order!");
                     } else {
                         System.out.println("Choose a restaurant: ");
                         System.out.println();
+
                         int i = 0;
                         for(i = 0 ; i < listOfRestaurants.sizeOfList() ; i++){
                             System.out.println((i+1) + ". " + listOfRestaurants.getRestaurantByIndex(i));
                         }
+
                         System.out.println((i+1) + ". Back to menu");
                         System.out.print("Your option: ");
                         int restaurantIn = restaurantInput.nextInt();
@@ -115,89 +134,19 @@ public class InitServices {
 
                         if(restaurantIn > 0 && restaurantIn <= i){
                             Restaurant specRestaurant = listOfRestaurants.getSpecificRestaurant(restaurantIn - 1);
-
-                            System.out.println("Welcome to " + listOfRestaurants.getRestaurantName(restaurantIn) + " restaurant!");
-                            System.out.println();
-                            System.out.println("Our menu: ");
-                            for(int j = 0 ; j < listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList() ; j++){
-                                System.out.println((j+1) + ". " + listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().getSpecificProductFromMenu(j));
-                            }
-
-                            System.out.println("Cart: ");
-                            System.out.println("NOTE: To complete the command enter the index -1 ");
+                            cartMethods.initCart(listOfRestaurants.getRestaurantName(restaurantIn), listOfRestaurants, restaurantIn );
 
                             boolean cartItems = true;
 
-                            Scanner cartInput = new Scanner(System.in);
-                            Scanner qtyInput = new Scanner(System.in);
+                            // ADD ITEM TO CART
+                            cartMethods.addProductsToCart(cartItems, listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList(), specRestaurant, cart);
 
-                            while(cartItems){
-                                System.out.print("Add product according to index: ");
-                                int cartIn = cartInput.nextInt();
-                                if(cartIn == -1){
-                                    cartItems = false;
-                                } else if(cartIn > 0 && cartIn <= listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList()) {
-                                    System.out.print("Add quantity for the selected product: ");
-                                    int qtyIn = qtyInput.nextInt();
-                                    if(qtyIn <= 0) {
-                                        System.out.println("Quantity unavailable!");
-                                    } else {
-                                        Product prodSelected =  specRestaurant.getMenu().getListOfProducts().get(cartIn - 1);
-                                        cart.addFoodToCart(prodSelected, qtyIn);
-                                    }
-                                } else {
-                                    System.out.println("Index unavailable! Try again...");
-                                }
-                            }
-                            System.out.println("Do you want to make the order? (Y/N)");
-                            Scanner orderInput = new Scanner(System.in);
-                            String orderIn = orderInput.nextLine();
-                            boolean checked = false;
-
-                            while(!checked){
-                                if(orderIn.equalsIgnoreCase("y") || orderIn.equalsIgnoreCase("Y")){
-                                    boolean check = false;
-
-                                    System.out.println("--------CHECKOUT--------");
-                                    System.out.println();
-                                    for(int j = 0 ; j < listOfCouriers.getSizeOfList() ; j++){
-                                        if(listOfCouriers.getCourierByIndex(j).getStatus().equalsIgnoreCase("FREE")){
-                                            System.out.println("Courier: " + listOfCouriers.getCourierByIndex(j).getFirstName() + " " + listOfCouriers.getCourierByIndex(j).getLastName());
-                                            listOfCouriers.getCourierByIndex(j).setStatus("BUSY");
-                                            check = true;
-                                            break;
-                                        }
-                                    }
-                                    if(!check){
-                                        System.out.println("At the moment, there is no courier available, try to make the order in 5 minutes!");
-
-                                    }else{
-                                        System.out.println("Restaurant Name: " + specRestaurant.getName());
-                                        System.out.println("Your Address: " + clientX.getAddress());
-                                        System.out.println("Products: ");
-                                        cart.showCart();
-                                        System.out.print("Total Amount: ");
-                                        cart.getTotalPrice();
-
-                                        Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart);
-
-                                        listOfOrders.addOrder(orderX);
-                                    }
-                                    checked = true;
-                                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
-                                } else if(orderIn.equalsIgnoreCase("n") || orderIn.equalsIgnoreCase("N")){
-                                    System.out.println("You will be redirected to the main menu!");
-                                    checked = true;
-                                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
-                                }else{
-                                    System.out.println("The value does not exist! Try anything else!");
-                                    orderIn = orderInput.nextLine();
-                                }
-                            }
+                            // CHECKOUT
+                            checkoutMethods.checkout(listOfCouriers, listOfOrders, specRestaurant, clientX, cart);
                         }
                     }
                 } else if(optionIn.equalsIgnoreCase("3")){
-                    mainMenu.seeAllTheRestaurants(listOfRestaurants);
+                    methodsMenu.seeAllTheRestaurants(listOfRestaurants);
                     System.out.println();
                     System.out.println("Options:");
                     System.out.println("1. Back to menu");
@@ -209,7 +158,7 @@ public class InitServices {
                     String secOptionIn = secOptionInput.nextLine();
 
                     if(secOptionIn.equalsIgnoreCase("1")){
-                        mainMenu.showMenu(clientX);
+                        methodsMenu.showMenu(clientX);
                         System.out.println();
                         System.out.print("Your option: ");
                         optionIn = optionInput.nextLine();
@@ -265,7 +214,7 @@ public class InitServices {
                     } else if(secOptionIn.equalsIgnoreCase("3") && clientX.getIsAdmin()){
                         Scanner indexOfDeletedItem = new Scanner(System.in);
 
-                        mainMenu.seeAllTheRestaurants(listOfRestaurants);
+                        methodsMenu.seeAllTheRestaurants(listOfRestaurants);
                         System.out.println("0. Back to menu");
                         System.out.println();
                         System.out.print("Your option:");
@@ -273,11 +222,11 @@ public class InitServices {
                         if(deletedItem > 0 && deletedItem < listOfRestaurants.sizeOfList()){
                             listOfRestaurants.deleteSpecificItem(deletedItem - 1);
                         }else {
-                            mainMenu.errorWrongOption(mainMenu, clientX, optionIn, optionInput);
+                            methodsMenu.errorWrongOption(methodsMenu, clientX, optionIn, optionInput);
                         }
 
                     } else {
-                        mainMenu.errorWrongOption(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.errorWrongOption(methodsMenu, clientX, optionIn, optionInput);
                     }
                 } else if(optionIn.equalsIgnoreCase("4")){
                     Scanner cityInput = new Scanner(System.in);
@@ -288,12 +237,12 @@ public class InitServices {
                         if(listOfRestaurants.getRestaurantByIndex(i).getCity().equalsIgnoreCase(cityIn)){
                             t++;
                             System.out.println(t + ". " + listOfRestaurants.getRestaurantByIndex(i).getName());
-                            mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                            methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                         }
                     }
                     if(t == 0){
                         System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
-                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }
                 } else if(optionIn.equalsIgnoreCase("5")){
                     int i = 0;
@@ -303,10 +252,10 @@ public class InitServices {
                         }
                     }
                     if(i > 0){
-                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     } else {
                         System.out.println("At this time, there are no orders!");
-                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }
 
 
@@ -316,7 +265,7 @@ public class InitServices {
 
                     Courier courierX = new Courier();
 
-                    mainMenu.addNewCourier(courierX);
+                    methodsMenu.addNewCourier(courierX);
                     listOfCouriers.addCourier(courierX);
 
                     System.out.println("Courier registered!");
@@ -328,26 +277,26 @@ public class InitServices {
                     }
 
                     if(i > 0){
-                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     } else {
                         System.out.println("At this time, there are no orders!");
-                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }
                 } else if(optionIn.equalsIgnoreCase("8") && clientX.getIsAdmin()){
                     for(int i = 0 ; i < listOfCouriers.getSizeOfList() ; i++){
                         System.out.println(listOfCouriers.getCourierByIndex(i));
                     }
-                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                 } else if(optionIn.equalsIgnoreCase("9") && clientX.getIsAdmin()){
-                    mainMenu.deleteSpecificCourier(listOfCouriers);
+                    methodsMenu.deleteSpecificCourier(listOfCouriers);
                 } else if (optionIn.equalsIgnoreCase("10") && clientX.getIsAdmin()){
-                    mainMenu.deleteSpecificClient(listOfClients);
+                    methodsMenu.deleteSpecificClient(listOfClients);
                 } else {
                     System.out.println("Wrong option! You will be redirected to menu!");
                     System.out.println();
                 }
 
-                mainMenu.showMenu(clientX);
+                methodsMenu.showMenu(clientX);
                 System.out.println();
                 System.out.print("Your option: ");
                 optionIn = optionInput.nextLine();
