@@ -285,83 +285,14 @@ public class InitServices {
                     System.out.println();
                     System.out.println("Options:");
                     System.out.println("1. Back to menu");
-                    if(clientX.getIsAdmin()){
-                        System.out.println("2. Add restaurant");
-                        System.out.println("3. Delete restaurant");
-                    }
                     System.out.print("Your option: ");
                     String secOptionIn = secOptionInput.nextLine();
 
-                    if(secOptionIn.equalsIgnoreCase("1")){
+                    if(secOptionIn.equalsIgnoreCase("1")) {
                         methodsMenu.showMenu(clientX);
                         System.out.println();
                         System.out.print("Your option: ");
                         optionIn = optionInput.nextLine();
-                    } else if(secOptionIn.equalsIgnoreCase("2") && clientX.getIsAdmin()){
-                        Scanner nameInput = new Scanner(System.in);
-                        Scanner addressInput = new Scanner(System.in);
-                        Scanner phoneNumberInput = new Scanner(System.in);
-                        Scanner cityInput = new Scanner(System.in);
-                        Scanner ratingInput = new Scanner(System.in);
-                        Scanner numberMenuInput = new Scanner(System.in);
-
-                        System.out.println("Firstly, you need to complete some informations about the new restaurant!");
-                        System.out.print("Name: ");
-                        String nameIn = nameInput.nextLine();
-                        System.out.print("Address: ");
-                        String addressIn = addressInput.nextLine();
-                        System.out.print("Phone number: ");
-                        String phoneNumberIn = phoneNumberInput.nextLine();
-                        System.out.print("City: ");
-                        String cityIn = cityInput.nextLine();
-                        System.out.print("Rating: ");
-                        Float ratingIn = ratingInput.nextFloat();
-                        System.out.println("Create a menu: ");
-                        System.out.print("How many products do you want to have in menu?: ");
-
-                        Menu menuX = new Menu();
-
-                        int numberMenuIn = numberMenuInput.nextInt();
-                        for(int i = 0 ; i < numberMenuIn ; i++){
-                            Scanner nameProductInput = new Scanner(System.in);
-                            Scanner priceProductInput = new Scanner(System.in);
-                            Scanner ratingProductInput = new Scanner(System.in);
-                            Scanner descriptionProductInput = new Scanner(System.in);
-
-                            System.out.println("Product number " + (i+1));
-                            System.out.print("Name: " );
-                            String nameProductIn = nameProductInput.nextLine();
-                            System.out.print("Price: " );
-                            Float priceProductIn = priceProductInput.nextFloat();
-                            System.out.print("Rating: " );
-                            Float ratingProductIn = ratingProductInput.nextFloat();
-                            System.out.print("Description: " );
-                            String descriptionProductIn = descriptionProductInput.nextLine();
-                            System.out.println();
-
-                            Product productX = new Product(nameProductIn, priceProductIn, ratingProductIn, descriptionProductIn);
-                            menuX.addProduct(productX);
-                        }
-
-                        Restaurant newRestaurant = new Restaurant(nameIn, phoneNumberIn, addressIn, cityIn, ratingIn, menuX);
-                        listOfRestaurants.addRestaurant(newRestaurant);
-
-                    } else if(secOptionIn.equalsIgnoreCase("3") && clientX.getIsAdmin()){
-                        Scanner indexOfDeletedItem = new Scanner(System.in);
-
-                        methodsMenu.seeAllTheRestaurants(listOfRestaurants);
-                        System.out.println("0. Back to menu");
-                        System.out.println();
-                        System.out.print("Your option:");
-                        int deletedItem = indexOfDeletedItem.nextInt();
-                        if(deletedItem > 0 && deletedItem < listOfRestaurants.sizeOfList()){
-                            listOfRestaurants.deleteSpecificItem(deletedItem - 1);
-                        }else {
-                            methodsMenu.errorWrongOption(methodsMenu, clientX, optionIn, optionInput);
-                        }
-
-                    } else {
-                        methodsMenu.errorWrongOption(methodsMenu, clientX, optionIn, optionInput);
                     }
                 } else if(optionIn.equalsIgnoreCase("4")){
                     Scanner cityInput = new Scanner(System.in);
@@ -376,12 +307,15 @@ public class InitServices {
                         }
                     }
 
+
                     if(t == 0){
                         System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
                         methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }else{
                         methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }
+
+
                 } else if(optionIn.equalsIgnoreCase("5")){
                     int i = 0;
                     for (i = 0 ; i < listOfOrders.sizeOfList() ; i++){
