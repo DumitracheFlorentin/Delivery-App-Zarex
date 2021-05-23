@@ -136,7 +136,7 @@ public class InitServices {
                                 int cartIn = cartInput.nextInt();
                                 if(cartIn == -1){
                                     cartItems = false;
-                                } else if(cartIn > 0) {
+                                } else if(cartIn > 0 && cartIn <= listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList()) {
                                     System.out.print("Add quantity for the selected product: ");
                                     int qtyIn = qtyInput.nextInt();
                                     if(qtyIn <= 0) {
@@ -156,23 +156,39 @@ public class InitServices {
 
                             while(!checked){
                                 if(orderIn.equalsIgnoreCase("y") || orderIn.equalsIgnoreCase("Y")){
+                                    boolean check = false;
+
                                     System.out.println("--------CHECKOUT--------");
                                     System.out.println();
-                                    System.out.println("Restaurant Name: " + specRestaurant.getName());
-                                    System.out.println("Your Address: " + clientX.getAddress());
-                                    System.out.println("Products: ");
-                                    cart.showCart();
-                                    System.out.print("Total Amount: ");
-                                    cart.getTotalPrice();
+                                    for(int j = 0 ; j < listOfCouriers.getSizeOfList() ; j++){
+                                        if(listOfCouriers.getCourierByIndex(j).getStatus().equalsIgnoreCase("FREE")){
+                                            System.out.println("Courier: " + listOfCouriers.getCourierByIndex(j).getFirstName() + " " + listOfCouriers.getCourierByIndex(j).getLastName());
+                                            listOfCouriers.getCourierByIndex(j).setStatus("BUSY");
+                                            check = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!check){
+                                        System.out.println("At the moment, there is no courier available, try to make the order in 5 minutes!");
 
-                                    Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart);
+                                    }else{
+                                        System.out.println("Restaurant Name: " + specRestaurant.getName());
+                                        System.out.println("Your Address: " + clientX.getAddress());
+                                        System.out.println("Products: ");
+                                        cart.showCart();
+                                        System.out.print("Total Amount: ");
+                                        cart.getTotalPrice();
 
-                                    listOfOrders.addOrder(orderX);
+                                        Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart);
 
+                                        listOfOrders.addOrder(orderX);
+                                    }
                                     checked = true;
+                                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
                                 } else if(orderIn.equalsIgnoreCase("n") || orderIn.equalsIgnoreCase("N")){
                                     System.out.println("You will be redirected to the main menu!");
                                     checked = true;
+                                    mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
                                 }else{
                                     System.out.println("The value does not exist! Try anything else!");
                                     orderIn = orderInput.nextLine();
@@ -279,6 +295,21 @@ public class InitServices {
                         System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
                         mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
                     }
+                } else if(optionIn.equalsIgnoreCase("5")){
+                    int i = 0;
+                    for (i = 0 ; i < listOfOrders.sizeOfList() ; i++){
+                        if(listOfOrders.getOrderByIndex(i).getClientUsername().equalsIgnoreCase(clientX.getUsername())){
+                            System.out.println(listOfOrders.getOrderByIndex(i));
+                        }
+                    }
+                    if(i > 0){
+                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    } else {
+                        System.out.println("At this time, there are no orders!");
+                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    }
+
+
                 } else if(optionIn.equalsIgnoreCase("6") && clientX.getIsAdmin()){
                     System.out.println("Registrate a new courier");
                     System.out.println();
@@ -290,6 +321,18 @@ public class InitServices {
 
                     System.out.println("Courier registered!");
 
+                } else if(optionIn.equalsIgnoreCase("7") && clientX.getIsAdmin()){
+                    int i = 0;
+                    for (i = 0 ; i < listOfOrders.sizeOfList() ; i++){
+                        System.out.println((i+1) + ". " + listOfOrders.getOrderByIndex(i));
+                    }
+
+                    if(i > 0){
+                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    } else {
+                        System.out.println("At this time, there are no orders!");
+                        mainMenu.goBackToMenu(mainMenu, clientX, optionIn, optionInput);
+                    }
                 } else if(optionIn.equalsIgnoreCase("8") && clientX.getIsAdmin()){
                     for(int i = 0 ; i < listOfCouriers.getSizeOfList() ; i++){
                         System.out.println(listOfCouriers.getCourierByIndex(i));
@@ -299,6 +342,9 @@ public class InitServices {
                     mainMenu.deleteSpecificCourier(listOfCouriers);
                 } else if (optionIn.equalsIgnoreCase("10") && clientX.getIsAdmin()){
                     mainMenu.deleteSpecificClient(listOfClients);
+                } else {
+                    System.out.println("Wrong option! You will be redirected to menu!");
+                    System.out.println();
                 }
 
                 mainMenu.showMenu(clientX);

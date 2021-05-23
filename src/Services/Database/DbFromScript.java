@@ -19,7 +19,7 @@ public class DbFromScript {
     CourierCar car2 = new CourierCar("Audi", "A4", "B999COL", "BLUE");
 
     // COURIERS
-    Courier courier1 = new Courier("Mihai", "Batan", "Batailor, Bl. C2, Sc. 2", "0735171671", car1);
+    Courier courier1 = new Courier("Mihai", "Batan", "Batailor, Bl. C2, Sc. 2", "0735171671", car1, "BUSY");
     Courier courier2 = new Courier("Denis", "Mutu", "Aviatorilor, nr. 2",  "07151716381",car2);
 
     public ListOfCouriers getCouriersFromSimpleDB(ListOfCouriers listOfCouriers){
