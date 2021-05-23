@@ -3,9 +3,14 @@ package Services;
 import Restaurant.ListOfRestaurants;
 import User.*;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MenuMethods {
+    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
+    Date date = new Date(System.currentTimeMillis());
 
     public void showMenu(Client client){
         System.out.println("Hello " + client.getUsername() + "! Glad to have you back!");
@@ -27,7 +32,7 @@ public class MenuMethods {
 
     }
 
-    public void seeProfile(Client client){
+    public void seeProfile(Client client, ListOfClients listOfClients){
         System.out.println("Your info are: ");
         System.out.println("Username: " + client.getUsername());
         System.out.println("Email: " + client.getEmail());
@@ -72,9 +77,10 @@ public class MenuMethods {
         System.out.print("Address: ");
         String addressIn = addressInput.nextLine();
         client.setAddress(addressIn);
+
     }
 
-    public void addNewCourier(Courier courier){
+    public void addNewCourier(Courier courier, ListOfCourierCars listOfCourierCars){
         Scanner firstNameInput = new Scanner(System.in);
         Scanner lastNameInput = new Scanner(System.in);
         Scanner addressInput = new Scanner(System.in);
@@ -106,7 +112,50 @@ public class MenuMethods {
         String carColorIn = carColorInput.nextLine();
 
         CourierCar carX = new CourierCar(carTypeIn, carModelIn, carNumberIn,carColorIn);
+        listOfCourierCars.addCar(carX);
         courier.setCar(carX);
+
+        try{
+            File file = new File("log.csv");
+            FileWriter fr = new FileWriter(file, true);
+            BufferedWriter logWriter = new BufferedWriter(fr);
+            logWriter.write("A new courier named " + courier.getFirstName() + " " + courier.getLastName() + " was created! " + formatter.format(date));
+            logWriter.newLine();
+            logWriter.close();
+            fr.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            File file = new File("db_cars.csv");
+            FileWriter fr = new FileWriter(file, true);
+            BufferedWriter buffWriter = new BufferedWriter(fr);
+            buffWriter.write(carX.getId() + "," + carX.getType() + "," + carX.getModel() + "," + carX.getNumber() + "," + carX.getColor());
+            buffWriter.newLine();
+            buffWriter.close();
+            fr.close();
+        } catch(FileNotFoundException e){
+            System.out.println("File Not Found!");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        try{
+            File file = new File("db_couriers.csv");
+            FileWriter fr = new FileWriter(file, true);
+            BufferedWriter buffWriter = new BufferedWriter(fr);
+            buffWriter.write(courier.getId() + "," + courier.getFirstName() + "," + courier.getLastName() + "," + courier.getAddress() + "," + courier.getPhoneNumber() + "," + listOfCourierCars.getSizeOfList() + "," + "FREE");
+            buffWriter.newLine();
+            buffWriter.close();
+            fr.close();
+
+        } catch(FileNotFoundException e){
+            System.out.println("File Not Found!");
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public void getPersonalInfo(Client client){
@@ -168,6 +217,18 @@ public class MenuMethods {
                 }else{
                     listOfClients.removeClient(deleteCourierIn - 1);
                     System.out.println("Success!");
+
+                    try{
+                        File file = new File("log.csv");
+                        FileWriter fr = new FileWriter(file, true);
+                        BufferedWriter logWriter = new BufferedWriter(fr);
+                        logWriter.write("A client was deleted! " + formatter.format(date));
+                        logWriter.newLine();
+                        logWriter.close();
+                        fr.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -202,6 +263,19 @@ public class MenuMethods {
             if(deleteCourierIn > 0 && deleteCourierIn <= i){
                 listOfCouriers.removeCourier(deleteCourierIn - 1);
                 System.out.println("Success!");
+
+                try{
+                    File file = new File("log.csv");
+                    FileWriter fr = new FileWriter(file, true);
+                    BufferedWriter logWriter = new BufferedWriter(fr);
+                    logWriter.write("A courier was deleted! " + formatter.format(date));
+                    logWriter.newLine();
+                    logWriter.close();
+                    fr.close();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         } else {
             System.out.println("There is no courier registered to the DB!");

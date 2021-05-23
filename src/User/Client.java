@@ -28,6 +28,17 @@ public class Client extends PrivateInfo implements GenerateID {
         this.isAdmin = isAdmin;
     }
 
+    public Client(String id, String username, String password, String email,
+                  String firstName, String lastName, String address,
+                  String phoneNumber,  boolean isAdmin) {
+        super(firstName, lastName, address, phoneNumber);
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
     public String getId() {
         return id;
     }

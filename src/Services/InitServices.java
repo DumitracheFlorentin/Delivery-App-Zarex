@@ -2,23 +2,26 @@ package Services;
 
 import Cart.Cart;
 import Order.ListOfOrders;
+import Order.ListOfProducts;
 import Restaurant.ListOfRestaurants;
 import Restaurant.Menus;
 import Restaurant.Menu;
 import Restaurant.Restaurant;
 import Restaurant.Product;
+import Services.Database.DbFromCSVFiles;
 import Services.Database.DbFromScript;
-import User.Client;
-import User.Courier;
-import User.ListOfClients;
-import User.ListOfCouriers;
+import User.*;
 
 
+import java.io.*;
 import java.util.Scanner;
 
 public class InitServices {
     // INIT LIST OF CLIENTS
     ListOfClients listOfClients = new ListOfClients();
+
+    // INIT LIST OF PRODUCTS
+    ListOfProducts listOfProducts = new ListOfProducts();
 
     // INIT LIST OF RESTAURANTS
     ListOfRestaurants listOfRestaurants = new ListOfRestaurants();
@@ -32,11 +35,15 @@ public class InitServices {
     // INIT LIST OF ORDERS
     ListOfOrders listOfOrders = new ListOfOrders();
 
+    // INIT LIST OF COURIER CARS
+    ListOfCourierCars listOfCourierCars = new ListOfCourierCars();
+
     // INIT A CART
     Cart cart = Cart.getInstance();
 
     // Init DB
     DbFromScript firstDBConnection = new DbFromScript();
+    DbFromCSVFiles secondDBConnection = new DbFromCSVFiles();
 
     // METHODS
     StartupMenu loginOrRegMenu = new StartupMenu();
@@ -50,11 +57,19 @@ public class InitServices {
 
 
     public void welcomeApp(){
-        // Init DB
-        firstDBConnection.getClientsFromSimpleDB(listOfClients);
-        firstDBConnection.getRestaurantsFromSimpleDB(listOfRestaurants);
-        firstDBConnection.getMenuFromSimpleDB(listOfMenus);
-        firstDBConnection.getCouriersFromSimpleDB(listOfCouriers);
+        // Init DB - Etapa 1
+        // firstDBConnection.getClientsFromSimpleDB(listOfClients);
+        // firstDBConnection.getRestaurantsFromSimpleDB(listOfRestaurants);
+        // firstDBConnection.getMenuFromSimpleDB(listOfMenus);
+        // firstDBConnection.getCouriersFromSimpleDB(listOfCouriers);
+
+        // Init DB - Etapa 2
+        secondDBConnection.readClientsFromFile(listOfClients);
+        secondDBConnection.readProductsFromFile(listOfProducts);
+        secondDBConnection.readMenuFromFile(listOfMenus, listOfProducts);
+        secondDBConnection.readRestaurantsFromFile(listOfRestaurants, listOfMenus);
+        secondDBConnection.readCarsFromFile(listOfCourierCars);
+        secondDBConnection.readCouriersFromFile(listOfCouriers, listOfCourierCars);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";
@@ -85,7 +100,7 @@ public class InitServices {
             while(!optionIn.equalsIgnoreCase("0")){
                 if(optionIn.equalsIgnoreCase("1")){
 
-                    methodsMenu.seeProfile(clientX);
+                    methodsMenu.seeProfile(clientX, listOfClients);
 
                     System.out.println();
                     System.out.println("Options:");
@@ -113,6 +128,40 @@ public class InitServices {
 
                         methodsMenu.editPersonalInfo(clientX);
 
+//                        try{
+//                            File file = new File("db_clients.csv");
+//                            FileWriter fr = new FileWriter(file);
+//                            BufferedWriter buffWriter = new BufferedWriter(fr);
+//                            buffWriter.close();
+//                            fr.close();
+//
+//                        } catch(FileNotFoundException e){
+//                            System.out.println("File Not Found!");
+//                        } catch(IOException e){
+//                            e.printStackTrace();
+//                        }
+//
+//
+//                        try{
+//                            File file = new File("db_clients.csv");
+//                            FileWriter fr = new FileWriter(file, true);
+//                            BufferedWriter buffWriter = new BufferedWriter(fr);
+//
+//                            for(int i = 0 ; i < listOfClients.sizeOfList() ; i++){
+//                                Client clientX = listOfClients.getSpecificClient(i);
+//
+//                                buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber());
+//                                buffWriter.newLine();
+//                            }
+//                            buffWriter.close();
+//                            fr.close();
+//
+//                        } catch(FileNotFoundException e){
+//                            System.out.println("File Not Found!");
+//                        } catch(IOException e){
+//                            e.printStackTrace();
+//                        }
+
                         System.out.println("Now you can come back to make an order!");
                     } else {
                         System.out.println("Choose a restaurant: ");
@@ -134,7 +183,7 @@ public class InitServices {
 
                         if(restaurantIn > 0 && restaurantIn <= i){
                             Restaurant specRestaurant = listOfRestaurants.getSpecificRestaurant(restaurantIn - 1);
-                            cartMethods.initCart(listOfRestaurants.getRestaurantName(restaurantIn), listOfRestaurants, restaurantIn );
+                            cartMethods.initCart(listOfRestaurants.getRestaurantName(restaurantIn), listOfRestaurants, restaurantIn);
 
                             boolean cartItems = true;
 
@@ -237,11 +286,14 @@ public class InitServices {
                         if(listOfRestaurants.getRestaurantByIndex(i).getCity().equalsIgnoreCase(cityIn)){
                             t++;
                             System.out.println(t + ". " + listOfRestaurants.getRestaurantByIndex(i).getName());
-                            methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
+
                         }
                     }
+
                     if(t == 0){
                         System.out.println("The city maybe does not exit or we cannot find any restaurant in it!");
+                        methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
+                    }else{
                         methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                     }
                 } else if(optionIn.equalsIgnoreCase("5")){
@@ -265,7 +317,7 @@ public class InitServices {
 
                     Courier courierX = new Courier();
 
-                    methodsMenu.addNewCourier(courierX);
+                    methodsMenu.addNewCourier(courierX, listOfCourierCars);
                     listOfCouriers.addCourier(courierX);
 
                     System.out.println("Courier registered!");
@@ -289,8 +341,77 @@ public class InitServices {
                     methodsMenu.goBackToMenu(methodsMenu, clientX, optionIn, optionInput);
                 } else if(optionIn.equalsIgnoreCase("9") && clientX.getIsAdmin()){
                     methodsMenu.deleteSpecificCourier(listOfCouriers);
+
+                    try{
+                        File file = new File("db_couriers.csv");
+                        FileWriter fr = new FileWriter(file);
+                        BufferedWriter buffWriter = new BufferedWriter(fr);
+                        buffWriter.close();
+                        fr.close();
+
+                    } catch(FileNotFoundException e){
+                        System.out.println("File Not Found!");
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
+
+                    try{
+                        File file = new File("db_couriers.csv");
+                        FileWriter fr = new FileWriter(file,true);
+                        BufferedWriter buffWriter = new BufferedWriter(fr);
+
+                        for(int i = 0 ; i < listOfCouriers.getSizeOfList() ; i++){
+                            Courier courierX = listOfCouriers.getCourierByIndex(i);
+
+                            buffWriter.write(courierX.getId() + "," + courierX.getFirstName() + "," + courierX.getLastName() + "," + courierX.getAddress() + "," + courierX.getPhoneNumber() + "," + (i+1) + "," + courierX.getStatus());
+                            buffWriter.newLine();
+                        }
+
+                        buffWriter.close();
+                        fr.close();
+
+                    } catch(FileNotFoundException e){
+                        System.out.println("File Not Found!");
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
+
                 } else if (optionIn.equalsIgnoreCase("10") && clientX.getIsAdmin()){
                     methodsMenu.deleteSpecificClient(listOfClients);
+
+                    try{
+                        File file = new File("db_clients.csv");
+                        FileWriter fr = new FileWriter(file);
+                        BufferedWriter buffWriter = new BufferedWriter(fr);
+                        buffWriter.close();
+                        fr.close();
+
+                    } catch(FileNotFoundException e){
+                        System.out.println("File Not Found!");
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
+
+                    try{
+                        File file = new File("db_clients.csv");
+                        FileWriter fr = new FileWriter(file,true);
+                        BufferedWriter buffWriter = new BufferedWriter(fr);
+
+                        for(int i = 0 ; i < listOfClients.sizeOfList() ; i++){
+                            Client clientX = listOfClients.getSpecificClient(i);
+
+                            buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber() + "," + clientX.getIsAdmin());
+                            buffWriter.newLine();
+                        }
+
+                        buffWriter.close();
+                        fr.close();
+
+                    } catch(FileNotFoundException e){
+                        System.out.println("File Not Found!");
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
                 } else {
                     System.out.println("Wrong option! You will be redirected to menu!");
                     System.out.println();

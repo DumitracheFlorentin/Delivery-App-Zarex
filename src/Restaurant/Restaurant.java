@@ -29,6 +29,10 @@ public class Restaurant implements GenerateID {
         return rating;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setRating(Float rating) {
         this.rating = rating;
     }

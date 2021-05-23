@@ -9,14 +9,20 @@ public class Order implements GenerateID {
     private String clientUsername;
     private Cart cart;
 
-    public Order( String restaurantID, String clientUsername, Cart cart) {
+    public Order(String restaurantID, String clientUsername, Cart cart) {
         this.id = GenerateID.genID();
         this.restaurantID = restaurantID;
         this.clientUsername = clientUsername;
         this.cart = cart;
     }
 
-    public Order(){}
+    public Order(){
+        this.id = GenerateID.genID();
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;

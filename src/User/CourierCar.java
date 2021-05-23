@@ -1,12 +1,16 @@
 package User;
 
-public class CourierCar {
+import Services.GenerateID;
+
+public class CourierCar implements GenerateID {
+    private String id;
     private String type;
     private String model;
     private String number;
     private String color;
 
     public CourierCar(String type, String model, String number, String color) {
+        this.id = GenerateID.genID();
         this.type = type;
         this.model = model;
         this.number = number;
@@ -14,10 +18,19 @@ public class CourierCar {
     }
 
     public CourierCar() {
+        this.id = GenerateID.genID();
         this.type = "";
         this.model = "";
         this.number = "";
         this.color = "";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {

@@ -9,6 +9,8 @@ public class Product implements GenerateID {
     private float rating;
     private String description;
 
+    public Product(){}
+
     public Product(String name, float price, float rating, String description) {
         this.id = GenerateID.genID();
         this.name = name;
@@ -19,6 +21,10 @@ public class Product implements GenerateID {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
