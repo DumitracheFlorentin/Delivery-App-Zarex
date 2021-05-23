@@ -43,6 +43,9 @@ public class Client extends PrivateInfo implements GenerateID {
     }
 
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -52,8 +55,8 @@ public class Client extends PrivateInfo implements GenerateID {
         isAdmin = admin;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrivateInfoId(String privateInfoId) {
+        this.id = privateInfoId;
     }
 
     public String getUsername() {

@@ -1,5 +1,6 @@
 package Services;
 
+import Services.Database.DbFromMySQL;
 import User.Client;
 import User.ListOfClients;
 
@@ -11,7 +12,7 @@ import java.util.Scanner;
 
 public class StartupMenu {
     private boolean check = false;
-
+    DbFromMySQL sqlMethods = new DbFromMySQL();
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
     Date date = new Date(System.currentTimeMillis());
 
@@ -63,17 +64,17 @@ public class StartupMenu {
                         clientX.setEmail(listOfClients.getSpecificClientByName(usernameIn).getEmail());
                         clientX.setIsAdmin(listOfClients.getSpecificClientByName(usernameIn).getIsAdmin());
 
-                        try{
-                            File file = new File("log.csv");
-                            FileWriter fr = new FileWriter(file, true);
-                            BufferedWriter logWriter = new BufferedWriter(fr);
-                            logWriter.write("A client named " + clientX.getUsername() + " just logged in! " + formatter.format(date));
-                            logWriter.newLine();
-                            logWriter.close();
-                            fr.close();
-                        } catch(IOException e) {
-                            e.printStackTrace();
-                        }
+//                        try{
+//                            File file = new File("log.csv");
+//                            FileWriter fr = new FileWriter(file, true);
+//                            BufferedWriter logWriter = new BufferedWriter(fr);
+//                            logWriter.write("A client named " + clientX.getUsername() + " just logged in! " + formatter.format(date));
+//                            logWriter.newLine();
+//                            logWriter.close();
+//                            fr.close();
+//                        } catch(IOException e) {
+//                            e.printStackTrace();
+//                        }
 
                         return true;
                     } else {
@@ -114,33 +115,34 @@ public class StartupMenu {
 
         Client client = new Client(usernameIn, passwordIn, emailIn);
         listOfClients.addClient(client);
+        sqlMethods.createUser(client);
 
-        try{
-            File file = new File("log.csv");
-            FileWriter fr = new FileWriter(file, true);
-            BufferedWriter logWriter = new BufferedWriter(fr);
-            logWriter.write("A new client named " + client.getUsername() + " was created! " + formatter.format(date));
-            logWriter.newLine();
-            logWriter.close();
-            fr.close();
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        try{
-            File file = new File("db_clients.csv");
-            FileWriter fr = new FileWriter(file, true);
-            BufferedWriter buffWriter = new BufferedWriter(fr);
-            buffWriter.write(client.getId() + "," + client.getUsername() + "," + client.getPassword() + "," + client.getEmail() + "," + client.getFirstName() + "," + client.getLastName() + "," + client.getAddress() + "," + client.getPhoneNumber() + "," + client.getIsAdmin());
-            buffWriter.newLine();
-            buffWriter.close();
-            fr.close();
-
-        } catch(FileNotFoundException e){
-            System.out.println("File Not Found!");
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+//        try{
+//            File file = new File("log.csv");
+//            FileWriter fr = new FileWriter(file, true);
+//            BufferedWriter logWriter = new BufferedWriter(fr);
+//            logWriter.write("A new client named " + client.getUsername() + " was created! " + formatter.format(date));
+//            logWriter.newLine();
+//            logWriter.close();
+//            fr.close();
+//        } catch(IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try{
+//            File file = new File("db_clients.csv");
+//            FileWriter fr = new FileWriter(file, true);
+//            BufferedWriter buffWriter = new BufferedWriter(fr);
+//            buffWriter.write(client.getPrivateInfoId() + "," + client.getUsername() + "," + client.getPassword() + "," + client.getEmail() + "," + client.getFirstName() + "," + client.getLastName() + "," + client.getAddress() + "," + client.getPhoneNumber() + "," + client.getIsAdmin());
+//            buffWriter.newLine();
+//            buffWriter.close();
+//            fr.close();
+//
+//        } catch(FileNotFoundException e){
+//            System.out.println("File Not Found!");
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        }
     }
 
 }

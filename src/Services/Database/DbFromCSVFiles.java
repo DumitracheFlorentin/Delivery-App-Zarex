@@ -181,7 +181,7 @@ public class DbFromCSVFiles {
     public void clientControlSwitch(int index, Client clientX, String value){
         switch(index){
             case 0:
-                clientX.setId(value);
+                clientX.setPrivateInfoId(value);
                 break;
             case 1:
                 clientX.setUsername(value);
@@ -279,7 +279,7 @@ public class DbFromCSVFiles {
     public void courierControlSwitch( ListOfCourierCars listOfCourierCars,int index, Courier courierX, String value){
         switch(index){
             case 0:
-                courierX.setId(value);
+                courierX.setPrivateInfoId(value);
                 break;
             case 1:
                 courierX.setFirstName(value);

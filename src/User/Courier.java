@@ -25,12 +25,12 @@ public class Courier extends PrivateInfo implements GenerateID {
         this.status = "FREE";
     }
 
-    public String getId() {
+    public String getPrivateInfoId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPrivateInfoId(String privateInfoId) {
+        this.id = privateInfoId;
     }
 
     public CourierCar getCar() {

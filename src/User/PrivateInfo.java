@@ -1,12 +1,16 @@
 package User;
 
-public class PrivateInfo{
+import Services.GenerateID;
+
+public class PrivateInfo implements GenerateID {
+    private String privateInfoId;
     private String firstName;
     private String lastName;
     private String address;
     private String phoneNumber;
 
     public PrivateInfo() {
+        this.privateInfoId = GenerateID.genID();
         this.firstName = "";
         this.lastName = "";
         this.address = "";
@@ -14,10 +18,19 @@ public class PrivateInfo{
     }
 
     public PrivateInfo( String firstName, String lastName, String address, String phoneNumber) {
+        this.privateInfoId = GenerateID.genID();
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPrivateInfoId() {
+        return privateInfoId;
+    }
+
+    public void setPrivateInfoId(String privateInfoId) {
+        this.privateInfoId = privateInfoId;
     }
 
     public String getFirstName() {
