@@ -47,6 +47,59 @@ public class MenuMethods {
             System.out.println("Here we go! Now we will be use this data for your orders!");
             System.out.println();
 
+            try{
+                File file = new File("db_clients.csv");
+                FileWriter fr = new FileWriter(file);
+                BufferedWriter buffWriter = new BufferedWriter(fr);
+                buffWriter.close();
+                fr.close();
+
+            } catch(FileNotFoundException e){
+                System.out.println("File Not Found!");
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+
+
+            try{
+                File file = new File("db_clients.csv");
+                FileWriter fr = new FileWriter(file, true);
+                BufferedWriter buffWriter = new BufferedWriter(fr);
+
+                for(int j = 0 ; j < listOfClients.sizeOfList() ; j++){
+                    Client clientX = client;
+
+
+                    if(clientX.getUsername().equalsIgnoreCase(client.getUsername())){
+                        buffWriter.write(listOfClients.getSpecificClient(j).getId() + "," + listOfClients.getSpecificClient(j).getUsername() + "," + listOfClients.getSpecificClient(j).getPassword() + "," + listOfClients.getSpecificClient(j).getEmail() + "," + listOfClients.getSpecificClient(j).getFirstName() + "," + listOfClients.getSpecificClient(j).getLastName() + "," + listOfClients.getSpecificClient(j).getAddress() + "," + listOfClients.getSpecificClient(j).getPhoneNumber() + "," + listOfClients.getSpecificClient(j).getIsAdmin());
+                    } else {
+                        buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber() + "," + clientX.getIsAdmin());
+                    }
+
+
+                    buffWriter.newLine();
+                }
+                buffWriter.close();
+                fr.close();
+
+            } catch(FileNotFoundException e){
+                System.out.println("File Not Found!");
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+
+            try{
+                File file = new File("log.csv");
+                FileWriter fr = new FileWriter(file, true);
+                BufferedWriter logWriter = new BufferedWriter(fr);
+                logWriter.write("A client named " + client.getFirstName() + " " + client.getLastName() + " edited his personal informations! " + formatter.format(date));
+                logWriter.newLine();
+                logWriter.close();
+                fr.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+
             getPersonalInfo(client);
         } else {
             getPersonalInfo(client);

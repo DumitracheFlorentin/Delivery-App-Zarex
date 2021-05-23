@@ -9,7 +9,21 @@ public class Client extends PrivateInfo implements GenerateID {
     private String email;
     private boolean isAdmin;
 
+
+    public Client(String id, String username, String password, String email,
+                  String firstName, String lastName, String address,
+                  String phoneNumber,  boolean isAdmin) {
+        super(firstName, lastName, address, phoneNumber);
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.isAdmin = isAdmin;
+    }
+
     public Client() {
+        super();
+        this.isAdmin = false;
     }
 
     public Client(String username, String password, String email) {
@@ -28,16 +42,7 @@ public class Client extends PrivateInfo implements GenerateID {
         this.isAdmin = isAdmin;
     }
 
-    public Client(String id, String username, String password, String email,
-                  String firstName, String lastName, String address,
-                  String phoneNumber,  boolean isAdmin) {
-        super(firstName, lastName, address, phoneNumber);
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.isAdmin = isAdmin;
-    }
+
 
     public String getId() {
         return id;
@@ -85,7 +90,7 @@ public class Client extends PrivateInfo implements GenerateID {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
+                ", email='" + email + '\'' + super.toString() +
                 '}';
     }
 }

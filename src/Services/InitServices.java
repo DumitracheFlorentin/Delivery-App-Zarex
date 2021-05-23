@@ -14,6 +14,8 @@ import User.*;
 
 
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class InitServices {
@@ -54,6 +56,9 @@ public class InitServices {
     // VARIABLES
     boolean loggedUser = false;
     Client clientX = new Client();
+
+    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
+    Date date = new Date(System.currentTimeMillis());
 
 
     public void welcomeApp(){
@@ -99,101 +104,182 @@ public class InitServices {
 
             while(!optionIn.equalsIgnoreCase("0")){
                 if(optionIn.equalsIgnoreCase("1")){
+                    for(int i = 0 ; i < listOfClients.sizeOfList(); i++){
+                        if(clientX.getUsername().equalsIgnoreCase(listOfClients.getSpecificClient(i).getUsername())){
+                            methodsMenu.seeProfile(listOfClients.getSpecificClient(i), listOfClients);
 
-                    methodsMenu.seeProfile(clientX, listOfClients);
+                            System.out.println();
+                            System.out.println("Options:");
+                            System.out.println("1. Edit your data");
+                            System.out.println("2. Back to menu");
+                            System.out.print("Your option: ");
 
-                    System.out.println();
-                    System.out.println("Options:");
-                    System.out.println("1. Edit your data");
-                    System.out.println("2. Back to menu");
-                    System.out.print("Your option: ");
+                            String secOptionIn = secOptionInput.nextLine();
 
-                    String secOptionIn = secOptionInput.nextLine();
+                            if(secOptionIn.equalsIgnoreCase("1")){
+                                methodsMenu.editPersonalInfo(listOfClients.getSpecificClient(i));
 
-                    if(secOptionIn.equalsIgnoreCase("1")){
-                        methodsMenu.editPersonalInfo(clientX);
-                    }else if(secOptionIn.equalsIgnoreCase("2")){
-                        methodsMenu.showMenu(clientX);
-                        System.out.println();
-                        System.out.print("Your option: ");
-                        optionIn = optionInput.nextLine();
+                                try{
+                                    File file = new File("db_clients.csv");
+                                    FileWriter fr = new FileWriter(file);
+                                    BufferedWriter buffWriter = new BufferedWriter(fr);
+                                    buffWriter.close();
+                                    fr.close();
+
+                                } catch(FileNotFoundException e){
+                                    System.out.println("File Not Found!");
+                                } catch(IOException e){
+                                    e.printStackTrace();
+                                }
+
+
+                                try{
+                                    File file = new File("db_clients.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter buffWriter = new BufferedWriter(fr);
+
+                                    for(int j = 0 ; j < listOfClients.sizeOfList() ; j++){
+                                        Client clientX = listOfClients.getSpecificClient(i);
+
+
+                                        if(clientX.getUsername().equalsIgnoreCase(listOfClients.getSpecificClient(i).getUsername())){
+                                            buffWriter.write(listOfClients.getSpecificClient(j).getId() + "," + listOfClients.getSpecificClient(j).getUsername() + "," + listOfClients.getSpecificClient(j).getPassword() + "," + listOfClients.getSpecificClient(j).getEmail() + "," + listOfClients.getSpecificClient(j).getFirstName() + "," + listOfClients.getSpecificClient(j).getLastName() + "," + listOfClients.getSpecificClient(j).getAddress() + "," + listOfClients.getSpecificClient(j).getPhoneNumber() + "," + listOfClients.getSpecificClient(j).getIsAdmin());
+                                        } else {
+                                            buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber() + "," + clientX.getIsAdmin());
+                                        }
+
+
+                                        buffWriter.newLine();
+                                    }
+                                    buffWriter.close();
+                                    fr.close();
+
+                                } catch(FileNotFoundException e){
+                                    System.out.println("File Not Found!");
+                                } catch(IOException e){
+                                    e.printStackTrace();
+                                }
+
+                                try{
+                                    File file = new File("log.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter logWriter = new BufferedWriter(fr);
+                                    logWriter.write("A client named " + listOfClients.getSpecificClient(i).getFirstName() + " " + listOfClients.getSpecificClient(i).getLastName() + " edited his personal informations! " + formatter.format(date));
+                                    logWriter.newLine();
+                                    logWriter.close();
+                                    fr.close();
+                                } catch(IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }else if(secOptionIn.equalsIgnoreCase("2")){
+                                methodsMenu.showMenu(listOfClients.getSpecificClient(i));
+                                System.out.println();
+                                System.out.print("Your option: ");
+                                optionIn = optionInput.nextLine();
+                            }
+                        }
                     }
-
                 } else if (optionIn.equalsIgnoreCase("2")) {
                     Scanner restaurantInput = new Scanner(System.in);
 
-                    if(clientX.getFirstName().equalsIgnoreCase("") && clientX.getLastName().equalsIgnoreCase("") && clientX.getAddress().equalsIgnoreCase("") &&
-                            clientX.getPhoneNumber().equalsIgnoreCase("")){
-                        System.out.println("It looks like you just registered your account! Let's setup your private informations first!");
+                    for(int i = 0 ; i < listOfClients.sizeOfList() ; i++){
+                        if(clientX.getUsername().equalsIgnoreCase(listOfClients.getSpecificClient(i).getUsername())){
+                            if(listOfClients.getSpecificClient(i).getFirstName().equalsIgnoreCase("") && listOfClients.getSpecificClient(i).getLastName().equalsIgnoreCase("") && listOfClients.getSpecificClient(i).getAddress().equalsIgnoreCase("") &&
+                                    listOfClients.getSpecificClient(i).getPhoneNumber().equalsIgnoreCase("")){
+                                System.out.println("It looks like you just registered your account! Let's setup your private informations first!");
 
-                        methodsMenu.editPersonalInfo(clientX);
+                                methodsMenu.editPersonalInfo(listOfClients.getSpecificClient(i));
 
-//                        try{
-//                            File file = new File("db_clients.csv");
-//                            FileWriter fr = new FileWriter(file);
-//                            BufferedWriter buffWriter = new BufferedWriter(fr);
-//                            buffWriter.close();
-//                            fr.close();
-//
-//                        } catch(FileNotFoundException e){
-//                            System.out.println("File Not Found!");
-//                        } catch(IOException e){
-//                            e.printStackTrace();
-//                        }
-//
-//
-//                        try{
-//                            File file = new File("db_clients.csv");
-//                            FileWriter fr = new FileWriter(file, true);
-//                            BufferedWriter buffWriter = new BufferedWriter(fr);
-//
-//                            for(int i = 0 ; i < listOfClients.sizeOfList() ; i++){
-//                                Client clientX = listOfClients.getSpecificClient(i);
-//
-//                                buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber());
-//                                buffWriter.newLine();
-//                            }
-//                            buffWriter.close();
-//                            fr.close();
-//
-//                        } catch(FileNotFoundException e){
-//                            System.out.println("File Not Found!");
-//                        } catch(IOException e){
-//                            e.printStackTrace();
-//                        }
+                                try{
+                                    File file = new File("db_clients.csv");
+                                    FileWriter fr = new FileWriter(file);
+                                    BufferedWriter buffWriter = new BufferedWriter(fr);
+                                    buffWriter.close();
+                                    fr.close();
 
-                        System.out.println("Now you can come back to make an order!");
-                    } else {
-                        System.out.println("Choose a restaurant: ");
-                        System.out.println();
+                                } catch(FileNotFoundException e){
+                                    System.out.println("File Not Found!");
+                                } catch(IOException e){
+                                    e.printStackTrace();
+                                }
 
-                        int i = 0;
-                        for(i = 0 ; i < listOfRestaurants.sizeOfList() ; i++){
-                            System.out.println((i+1) + ". " + listOfRestaurants.getRestaurantByIndex(i));
-                        }
 
-                        System.out.println((i+1) + ". Back to menu");
-                        System.out.print("Your option: ");
-                        int restaurantIn = restaurantInput.nextInt();
+                                try{
+                                    File file = new File("db_clients.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter buffWriter = new BufferedWriter(fr);
 
-                        while(restaurantIn < 0 || restaurantIn > i + 1){
-                            System.out.println("Something went wrong! Try another value.");
-                            restaurantIn = restaurantInput.nextInt();
-                        }
+                                    for(int j = 0 ; j < listOfClients.sizeOfList() ; j++){
+                                        Client clientX = listOfClients.getSpecificClient(i);
 
-                        if(restaurantIn > 0 && restaurantIn <= i){
-                            Restaurant specRestaurant = listOfRestaurants.getSpecificRestaurant(restaurantIn - 1);
-                            cartMethods.initCart(listOfRestaurants.getRestaurantName(restaurantIn), listOfRestaurants, restaurantIn);
 
-                            boolean cartItems = true;
+                                        if(clientX.getUsername().equalsIgnoreCase(listOfClients.getSpecificClient(i).getUsername())){
+                                            buffWriter.write(listOfClients.getSpecificClient(j).getId() + "," + listOfClients.getSpecificClient(j).getUsername() + "," + listOfClients.getSpecificClient(j).getPassword() + "," + listOfClients.getSpecificClient(j).getEmail() + "," + listOfClients.getSpecificClient(j).getFirstName() + "," + listOfClients.getSpecificClient(j).getLastName() + "," + listOfClients.getSpecificClient(j).getAddress() + "," + listOfClients.getSpecificClient(j).getPhoneNumber() + "," + listOfClients.getSpecificClient(j).getIsAdmin());
+                                        } else {
+                                            buffWriter.write(clientX.getId() + "," + clientX.getUsername() + "," + clientX.getPassword() + "," + clientX.getEmail() + "," + clientX.getFirstName() + "," + clientX.getLastName() + "," + clientX.getAddress() + "," + clientX.getPhoneNumber() + "," + clientX.getIsAdmin());
+                                        }
 
-                            // ADD ITEM TO CART
-                            cartMethods.addProductsToCart(cartItems, listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList(), specRestaurant, cart);
 
-                            // CHECKOUT
-                            checkoutMethods.checkout(listOfCouriers, listOfOrders, specRestaurant, clientX, cart);
+                                        buffWriter.newLine();
+                                    }
+                                    buffWriter.close();
+                                    fr.close();
+
+                                } catch(FileNotFoundException e){
+                                    System.out.println("File Not Found!");
+                                } catch(IOException e){
+                                    e.printStackTrace();
+                                }
+
+                                try{
+                                    File file = new File("log.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter logWriter = new BufferedWriter(fr);
+                                    logWriter.write("A client named " + listOfClients.getSpecificClient(i).getFirstName() + " " + listOfClients.getSpecificClient(i).getLastName() + " edited his personal informations! " + formatter.format(date));
+                                    logWriter.newLine();
+                                    logWriter.close();
+                                    fr.close();
+                                } catch(IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                System.out.println("Now you can come back to make an order!");
+                            } else {
+                                System.out.println("Choose a restaurant: ");
+                                System.out.println();
+
+                                int j = 0;
+                                for(j = 0 ; j < listOfRestaurants.sizeOfList() ; j++){
+                                    System.out.println((j+1) + ". " + listOfRestaurants.getRestaurantByIndex(j));
+                                }
+
+                                System.out.println((j+1) + ". Back to menu");
+                                System.out.print("Your option: ");
+                                int restaurantIn = restaurantInput.nextInt();
+
+                                while(restaurantIn < 0 || restaurantIn > j + 1){
+                                    System.out.println("Something went wrong! Try another value.");
+                                    restaurantIn = restaurantInput.nextInt();
+                                }
+
+                                if(restaurantIn > 0 && restaurantIn <= j){
+                                    Restaurant specRestaurant = listOfRestaurants.getSpecificRestaurant(restaurantIn - 1);
+                                    cartMethods.initCart(listOfRestaurants.getRestaurantName(restaurantIn), listOfRestaurants, restaurantIn);
+
+                                    boolean cartItems = true;
+
+                                    // ADD ITEM TO CART
+                                    cartMethods.addProductsToCart(cartItems, listOfRestaurants.getRestaurantByIndex(restaurantIn - 1).getMenu().sizeOfList(), specRestaurant, cart);
+
+                                    // CHECKOUT
+                                    checkoutMethods.checkout(listOfCouriers, listOfOrders, specRestaurant, listOfClients.getSpecificClient(i), cart);
+                                }
+                            }
                         }
                     }
+
+
                 } else if(optionIn.equalsIgnoreCase("3")){
                     methodsMenu.seeAllTheRestaurants(listOfRestaurants);
                     System.out.println();

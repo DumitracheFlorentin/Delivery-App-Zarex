@@ -51,7 +51,7 @@ public class Cart {
     }
 
     public void getTotalPrice(){
-        System.out.println(totalPrice + "RON - ONLY CASH");
+        System.out.println(totalPrice + " RON - ONLY CASH");
     }
 
     public float getPrice(){return totalPrice;}

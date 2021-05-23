@@ -62,6 +62,19 @@ public class StartupMenu {
                         clientX.setPassword(listOfClients.getSpecificClientByName(usernameIn).getPassword());
                         clientX.setEmail(listOfClients.getSpecificClientByName(usernameIn).getEmail());
                         clientX.setIsAdmin(listOfClients.getSpecificClientByName(usernameIn).getIsAdmin());
+
+                        try{
+                            File file = new File("log.csv");
+                            FileWriter fr = new FileWriter(file, true);
+                            BufferedWriter logWriter = new BufferedWriter(fr);
+                            logWriter.write("A client named " + clientX.getUsername() + " just logged in! " + formatter.format(date));
+                            logWriter.newLine();
+                            logWriter.close();
+                            fr.close();
+                        } catch(IOException e) {
+                            e.printStackTrace();
+                        }
+
                         return true;
                     } else {
                         System.out.println("Username or password incorrect! Try Again!");

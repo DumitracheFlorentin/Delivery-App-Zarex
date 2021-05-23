@@ -7,9 +7,17 @@ import User.Client;
 import User.ListOfCouriers;
 import Order.ListOfOrders;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class CheckoutMethods {
+    SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
+    Date date = new Date(System.currentTimeMillis());
 
     public void checkout(ListOfCouriers listOfCouriers, ListOfOrders listOfOrders, Restaurant specRestaurant, Client clientX, Cart cart){
         Scanner goToMenuInput = new Scanner(System.in);
@@ -47,6 +55,18 @@ public class CheckoutMethods {
                     Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart);
 
                     listOfOrders.addOrder(orderX);
+
+                    try{
+                        File file = new File("log.csv");
+                        FileWriter fr = new FileWriter(file, true);
+                        BufferedWriter logWriter = new BufferedWriter(fr);
+                        logWriter.write("A new order placed by " + clientX.getUsername() + " with the total amount of " + cart.getPrice() + " RON was registered! " + formatter.format(date));
+                        logWriter.newLine();
+                        logWriter.close();
+                        fr.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 checked = true;
                 System.out.println();

@@ -1,8 +1,6 @@
 package Services.Database;
 
-import Order.ListOfOrders;
 import Order.ListOfProducts;
-import Order.Order;
 import Restaurant.*;
 import User.*;
 
@@ -21,7 +19,7 @@ public class DbFromCSVFiles {
                 String[] values = line.split(",");
 
                 // Init a new Client
-                Client clientX = new Client();
+                Client clientX = new Client("id","username", "password", "email", "firstName", "lastName", "address", "phoneNumber", false);
 
                 // Use a function to read from the CSV File
                 switchClientControl(listOfClients, clientX, values);
