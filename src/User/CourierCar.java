@@ -68,7 +68,8 @@ public class CourierCar implements GenerateID {
     @Override
     public String toString() {
         return "Car{" +
-                "Type='" + type + '\'' +
+                "Id='" + id + '\'' +
+                ", Type='" + type + '\'' +
                 ", Model='" + model + '\'' +
                 ", Number='" + number + '\'' +
                 ", Color='" + color + '\'' +

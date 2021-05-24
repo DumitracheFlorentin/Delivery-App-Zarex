@@ -44,13 +44,14 @@ public class InitServices {
     // Init DB
     // DbFromScript firstDBConnection = new DbFromScript();
      DbFromCSVFiles secondDBConnection = new DbFromCSVFiles();
+     DbFromMySQL mySqlMethods = new DbFromMySQL();
 
     // METHODS
     StartupMenu loginOrRegMenu = new StartupMenu();
     MenuMethods methodsMenu = new MenuMethods();
     CartMethods cartMethods = new CartMethods();
     CheckoutMethods checkoutMethods = new CheckoutMethods();
-    DbFromMySQL mySqlMethods = new DbFromMySQL();
+
 
     // VARIABLES
     boolean loggedUser = false;
@@ -67,17 +68,22 @@ public class InitServices {
         // firstDBConnection.getMenuFromSimpleDB(listOfMenus);
         // firstDBConnection.getCouriersFromSimpleDB(listOfCouriers);
 
-        // Init DB - Etapa 2
-        //secondDBConnection.readClientsFromFile(listOfClients);
-        secondDBConnection.readProductsFromFile(listOfProducts);
-        secondDBConnection.readMenuFromFile(listOfMenus, listOfProducts);
-        secondDBConnection.readRestaurantsFromFile(listOfRestaurants, listOfMenus);
-        secondDBConnection.readCarsFromFile(listOfCourierCars);
-        secondDBConnection.readCouriersFromFile(listOfCouriers, listOfCourierCars);
-
         // Init DB - Etapa 3
         mySqlMethods.readClients(listOfClients);
         mySqlMethods.readPrivateInfo(listOfClients);
+        mySqlMethods.readProducts(listOfProducts);
+        mySqlMethods.readCourier(listOfCouriers);
+        mySqlMethods.readPrivateInfoCouriers(listOfCouriers);
+        mySqlMethods.readCourierCar(listOfCourierCars);
+
+
+        // Init DB - Etapa 2
+        //secondDBConnection.readClientsFromFile(listOfClients);
+        //secondDBConnection.readProductsFromFile(listOfProducts);
+        secondDBConnection.readMenuFromFile(listOfMenus, listOfProducts);
+        secondDBConnection.readRestaurantsFromFile(listOfRestaurants, listOfMenus);
+        //secondDBConnection.readCarsFromFile(listOfCourierCars);
+        //secondDBConnection.readCouriersFromFile(listOfCouriers, listOfCourierCars);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";

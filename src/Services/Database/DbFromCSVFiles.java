@@ -58,7 +58,7 @@ public class DbFromCSVFiles {
         Menu menu1 = new Menu();
         menu1.addProduct(listOfProducts.getProductByIndex(0));
         menu1.addProduct(listOfProducts.getProductByIndex(4));
-        menu1.addProduct(listOfProducts.getProductByIndex(5));
+//        menu1.addProduct(listOfProducts.getProductByIndex(5));
 
         Menu menu2 = new Menu();
         menu2.addProduct(listOfProducts.getProductByIndex(0));
@@ -68,7 +68,7 @@ public class DbFromCSVFiles {
         Menu menu3 = new Menu();
         menu3.addProduct(listOfProducts.getProductByIndex(1));
         menu3.addProduct(listOfProducts.getProductByIndex(2));
-        menu3.addProduct(listOfProducts.getProductByIndex(5));
+//        menu3.addProduct(listOfProducts.getProductByIndex(5));
 
         listOfMenus.addMenu(menu1);
         listOfMenus.addMenu(menu2);

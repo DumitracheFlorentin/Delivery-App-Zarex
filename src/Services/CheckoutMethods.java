@@ -56,17 +56,17 @@ public class CheckoutMethods {
 
                     listOfOrders.addOrder(orderX);
 
-                    try{
-                        File file = new File("log.csv");
-                        FileWriter fr = new FileWriter(file, true);
-                        BufferedWriter logWriter = new BufferedWriter(fr);
-                        logWriter.write("A new order placed by " + clientX.getUsername() + " with the total amount of " + cart.getPrice() + " RON was registered! " + formatter.format(date));
-                        logWriter.newLine();
-                        logWriter.close();
-                        fr.close();
-                    } catch(IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try{
+//                        File file = new File("log.csv");
+//                        FileWriter fr = new FileWriter(file, true);
+//                        BufferedWriter logWriter = new BufferedWriter(fr);
+//                        logWriter.write("A new order placed by " + clientX.getUsername() + " with the total amount of " + cart.getPrice() + " RON was registered! " + formatter.format(date));
+//                        logWriter.newLine();
+//                        logWriter.close();
+//                        fr.close();
+//                    } catch(IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 checked = true;
                 System.out.println();

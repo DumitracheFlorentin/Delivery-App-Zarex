@@ -25,8 +25,12 @@ public class Courier extends PrivateInfo implements GenerateID {
         this.status = "FREE";
     }
 
-    public String getPrivateInfoId() {
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setPrivateInfoId(String privateInfoId) {
@@ -52,12 +56,12 @@ public class Courier extends PrivateInfo implements GenerateID {
     @Override
     public String toString() {
         return "Courier{" +
-                "First Name='" + getFirstName() + '\'' +
+                "ID='" + id + '\'' +
+                ", First Name='" + getFirstName() + '\'' +
                 ", Last Name='" + getLastName() + '\'' +
                 ", Phone Number='" + getPhoneNumber() + '\'' +
                 ", Address='" + getAddress() + '\'' +
                 ", Status='" + status + '\'' +
-                ", Car='" + car + '\'' +
                 '}';
     }
 }

@@ -167,10 +167,19 @@ public class MenuMethods {
         String carNumberIn = carNumberInput.nextLine();
         System.out.print("Car Color: ");
         String carColorIn = carColorInput.nextLine();
+        courier.setStatus("FREE");
+
+        mySqlMethods.createCourier(courier);
+        mySqlMethods.createPrivateInfoCourier(courier);
 
         CourierCar carX = new CourierCar(carTypeIn, carModelIn, carNumberIn,carColorIn);
         listOfCourierCars.addCar(carX);
+
+        mySqlMethods.createCourierCar(carX, courier);
         courier.setCar(carX);
+
+
+
 
 //        try{
 //            File file = new File("log.csv");
@@ -260,20 +269,20 @@ public class MenuMethods {
             System.out.println((i+1) + ". Back to menu");
             System.out.println();
             System.out.print("Your option: ");
-            Scanner deleteCourierInput = new Scanner(System.in);
-            int deleteCourierIn = deleteCourierInput.nextInt();
+            Scanner deleteClientInput = new Scanner(System.in);
+            int deleteClientIn = deleteClientInput.nextInt();
 
-            while(deleteCourierIn < 0 || deleteCourierIn > i + 1){
+            while(deleteClientIn < 0 || deleteClientIn > i + 1){
                 System.out.println("Something went wrong! Try another value.");
-                deleteCourierIn = deleteCourierInput.nextInt();
+                deleteClientIn = deleteClientInput.nextInt();
             }
 
-            if(deleteCourierIn > 0 && deleteCourierIn <= i){
-                if(listOfClients.getSpecificClient(deleteCourierIn - 1).getIsAdmin()){
+            if(deleteClientIn > 0 && deleteClientIn <= i){
+                if(listOfClients.getSpecificClient(deleteClientIn - 1).getIsAdmin()){
                     System.out.println("Error! You cannot delete this account!");
                 }else{
-                    mySqlMethods.deleteSpecificUser(listOfClients, listOfClients.getSpecificClient(deleteCourierIn - 1).getId());
-                    listOfClients.removeClient(deleteCourierIn - 1);
+                    mySqlMethods.deleteSpecificUser(listOfClients, listOfClients.getSpecificClient(deleteClientIn - 1).getId());
+                    listOfClients.removeClient(deleteClientIn - 1);
 
                     System.out.println("Success!");
 
@@ -320,6 +329,7 @@ public class MenuMethods {
             }
 
             if(deleteCourierIn > 0 && deleteCourierIn <= i){
+                mySqlMethods.deleteSpecificCourier(listOfCouriers, listOfCouriers.getCourierByIndex(deleteCourierIn - 1).getId());
                 listOfCouriers.removeCourier(deleteCourierIn - 1);
                 System.out.println("Success!");
 
