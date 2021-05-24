@@ -6,6 +6,7 @@ import Order.ListOfProducts;
 import Restaurant.ListOfRestaurants;
 import Restaurant.Menus;
 import Restaurant.Restaurant;
+import Restaurant.ListOfMenus;
 import Services.Database.DbFromCSVFiles;
 import Services.Database.DbFromMySQL;
 import User.*;
@@ -32,6 +33,9 @@ public class InitServices {
     // INIT LIST OF MENUS
     Menus listOfMenus = new Menus();
 
+    // INIT LIST OF BRIDGETABLEMENU
+    ListOfMenus listOfBridgeMenus = new ListOfMenus();
+
     // INIT LIST OF ORDERS
     ListOfOrders listOfOrders = new ListOfOrders();
 
@@ -51,6 +55,7 @@ public class InitServices {
     MenuMethods methodsMenu = new MenuMethods();
     CartMethods cartMethods = new CartMethods();
     CheckoutMethods checkoutMethods = new CheckoutMethods();
+    GetMenus getMenus = new GetMenus();
 
 
     // VARIABLES
@@ -68,6 +73,14 @@ public class InitServices {
         // firstDBConnection.getMenuFromSimpleDB(listOfMenus);
         // firstDBConnection.getCouriersFromSimpleDB(listOfCouriers);
 
+        // Init DB - Etapa 2
+        //secondDBConnection.readClientsFromFile(listOfClients);
+        //secondDBConnection.readProductsFromFile(listOfProducts);
+        //secondDBConnection.readMenuFromFile(listOfMenus, listOfProducts);
+        //secondDBConnection.readRestaurantsFromFile(listOfRestaurants, listOfMenus);
+        //secondDBConnection.readCarsFromFile(listOfCourierCars);
+        //secondDBConnection.readCouriersFromFile(listOfCouriers, listOfCourierCars);
+
         // Init DB - Etapa 3
         mySqlMethods.readClients(listOfClients);
         mySqlMethods.readPrivateInfo(listOfClients);
@@ -75,15 +88,10 @@ public class InitServices {
         mySqlMethods.readCourier(listOfCouriers);
         mySqlMethods.readPrivateInfoCouriers(listOfCouriers);
         mySqlMethods.readCourierCar(listOfCourierCars);
+        mySqlMethods.readMenu(listOfBridgeMenus);
+        mySqlMethods.readRestaurant(listOfRestaurants);
+        getMenus.getMenus(listOfRestaurants, listOfBridgeMenus, listOfProducts);
 
-
-        // Init DB - Etapa 2
-        //secondDBConnection.readClientsFromFile(listOfClients);
-        //secondDBConnection.readProductsFromFile(listOfProducts);
-        secondDBConnection.readMenuFromFile(listOfMenus, listOfProducts);
-        secondDBConnection.readRestaurantsFromFile(listOfRestaurants, listOfMenus);
-        //secondDBConnection.readCarsFromFile(listOfCourierCars);
-        //secondDBConnection.readCouriersFromFile(listOfCouriers, listOfCourierCars);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";

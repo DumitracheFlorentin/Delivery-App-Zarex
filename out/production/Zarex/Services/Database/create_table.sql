@@ -46,5 +46,26 @@ CREATE TABLE `zarex`.`couriercar` (
   FOREIGN KEY (`courierID`)
   REFERENCES `zarex`.`courier` (`id`) ON DELETE CASCADE);
 
+CREATE TABLE `zarex`.`restaurant` (
+    `restaurantID` VARCHAR(100) NOT NULL,
+    `name` VARCHAR(45) NOT NULL,
+    `phoneNumber` VARCHAR(45) NOT NULL,
+    `address` VARCHAR(45) NOT NULL,
+    `city` VARCHAR(45) NOT NULL,
+    `rating` FLOAT NOT NULL,
+    PRIMARY KEY (`restaurantID`));
+
+CREATE TABLE `zarex`.`menu` (
+  `menuID` VARCHAR(100) NOT NULL,
+  `restaurantID` VARCHAR(45) NULL,
+  `productID` VARCHAR(45) NULL,
+  PRIMARY KEY (`menuID`),
+  FOREIGN KEY (`restaurantID`)
+    REFERENCES `zarex`.`restaurant` (`restaurantID`)
+    ON DELETE CASCADE,
+  FOREIGN KEY (`productID`)
+    REFERENCES `zarex`.`product` (`id`)
+    ON DELETE CASCADE);
+
 
 

@@ -2,6 +2,10 @@ package Services.Database;
 
 import Order.ListOfProducts;
 import Restaurant.Product;
+import Restaurant.Restaurant;
+import Restaurant.ListOfMenus;
+import Restaurant.BridgeTableMenu;
+import Restaurant.ListOfRestaurants;
 import User.*;
 
 import java.sql.*;
@@ -443,10 +447,150 @@ public class DbFromMySQL {
         }
     }
 
+    /*-------------- RESTAURANT --------------*/
+
+    public void createRestaurant(Restaurant restaurant){
+        try (Connection connection = getConnection()) {
+            String query = "INSERT into restaurant(restaurantID, name, phoneNumber, address, city, rating) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, restaurant.getId());
+            stmnt.setString(2, restaurant.getName());
+            stmnt.setString(2, restaurant.getPhoneNumber());
+            stmnt.setString(2, restaurant.getAddress());
+            stmnt.setString(2, restaurant.getCity());
+            stmnt.setFloat(2, restaurant.getRating());
+            stmnt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readRestaurant(ListOfRestaurants listOfRestaurants){
+        try (Connection connection = this.getConnection()) {
+            Statement stmnt = connection.createStatement();
+
+            String query = "SELECT * FROM restaurant";
+            ResultSet resSet = stmnt.executeQuery(query);
+
+            while(resSet.next()){
+                Restaurant restaurantX = new Restaurant();
+                restaurantX.setId(resSet.getString(1));
+                restaurantX.setName(resSet.getString(2));
+                restaurantX.setPhoneNumber(resSet.getString(3));
+                restaurantX.setAddress(resSet.getString(4));
+                restaurantX.setCity(resSet.getString(5));
+                restaurantX.setRating(resSet.getFloat(6));
+                listOfRestaurants.addRestaurant(restaurantX);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateRestaurant(Restaurant restaurant){
+        try (Connection connection = this.getConnection()) {
+            String query = "UPDATE restaurant SET name = ?, phoneNumber = ?, address = ?, city = ?, rating = ? WHERE restaurantID = ?;";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, restaurant.getName());
+            stmnt.setString(2, restaurant.getPhoneNumber());
+            stmnt.setString(3, restaurant.getAddress());
+            stmnt.setString(4, restaurant.getCity());
+            stmnt.setFloat(5, restaurant.getRating());
+            stmnt.executeUpdate();
+
+            System.out.println("Success!");
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSpecificRestaurant(ListOfRestaurants listOfRestaurants, String id){
+        try (Connection connection = getConnection()) {
+            boolean check = false;
+
+            for(int i = 0 ; i < listOfRestaurants.sizeOfList() ; i++){
+                if(listOfRestaurants.getRestaurantByIndex(i).getId().equalsIgnoreCase(id)){
+                    check = true;
+                }
+            }
+
+            if(check){
+                String query = "DELETE from restaurant WHERE restaurantID like ?;";
+                PreparedStatement stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, id);
+                stmnt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*-------------- MENU --------------*/
 
+    public void createMenu(BridgeTableMenu bridgeTableMenu, Restaurant restaurant, Product product){
+        try (Connection connection = getConnection()) {
+            String query = "INSERT into menu(menuID, restaurantID, productID) VALUES (?, ?, ?)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, bridgeTableMenu.getMenuID());
+            stmnt.setString(2, restaurant.getId());
+            stmnt.setString(2, product.getId());
+            stmnt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void readMenu(ListOfMenus listOfMenus){
+        try (Connection connection = this.getConnection()) {
+            Statement stmnt = connection.createStatement();
 
+            String query = "SELECT * FROM menu";
+            ResultSet resSet = stmnt.executeQuery(query);
 
+            while(resSet.next()){
+                BridgeTableMenu bridgeTableMenu = new BridgeTableMenu();
+                bridgeTableMenu.setMenuID(resSet.getString(1));
+                bridgeTableMenu.setRestaurantID(resSet.getString(2));
+                bridgeTableMenu.setProductID(resSet.getString(3));
+                listOfMenus.addMenu(bridgeTableMenu);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void updateBridgeMenu(BridgeTableMenu bridgeTableMenu, Restaurant restaurant, Product product){
+        try (Connection connection = this.getConnection()) {
+            String query = "UPDATE menu SET restaurantID = ?, productID = ? WHERE menuID = ?;";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, restaurant.getId());
+            stmnt.setString(2, product.getId());
+            stmnt.setString(3, bridgeTableMenu.getMenuID());
+            stmnt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSpecificBridgeTabelMenu(ListOfMenus listOfMenus, String id){
+        try (Connection connection = getConnection()) {
+            boolean check = false;
+
+            for(int i = 0 ; i < listOfMenus.sizeOfList() ; i++){
+                if(listOfMenus.getSpecificMenu(i).getMenuID().equalsIgnoreCase(id)){
+                    check = true;
+                }
+            }
+
+            if(check){
+                String query = "DELETE from menu WHERE menuID like ?;";
+                PreparedStatement stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, id);
+                stmnt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
