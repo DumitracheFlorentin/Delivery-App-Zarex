@@ -3,6 +3,7 @@ package Services;
 import Cart.Cart;
 import Order.Order;
 import Restaurant.Restaurant;
+import Services.Database.DbFromMySQL;
 import User.Client;
 import User.ListOfCouriers;
 import Order.ListOfOrders;
@@ -16,8 +17,13 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class CheckoutMethods {
+    // Init DB
+    DbFromMySQL mySqlMethods = new DbFromMySQL();
+
+    // Init DATE
     SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
     Date date = new Date(System.currentTimeMillis());
+
 
     public void checkout(ListOfCouriers listOfCouriers, ListOfOrders listOfOrders, Restaurant specRestaurant, Client clientX, Cart cart){
         Scanner goToMenuInput = new Scanner(System.in);
@@ -52,21 +58,21 @@ public class CheckoutMethods {
                     System.out.print("Total Amount: ");
                     cart.getTotalPrice();
 
-                    Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart);
-
+                    Order orderX = new Order(specRestaurant.getId(), clientX.getUsername(), cart.getPrice());
                     listOfOrders.addOrder(orderX);
+                    mySqlMethods.createOrder(orderX);
 
-//                    try{
-//                        File file = new File("log.csv");
-//                        FileWriter fr = new FileWriter(file, true);
-//                        BufferedWriter logWriter = new BufferedWriter(fr);
-//                        logWriter.write("A new order placed by " + clientX.getUsername() + " with the total amount of " + cart.getPrice() + " RON was registered! " + formatter.format(date));
-//                        logWriter.newLine();
-//                        logWriter.close();
-//                        fr.close();
-//                    } catch(IOException e) {
-//                        e.printStackTrace();
-//                    }
+                    try{
+                        File file = new File("log.csv");
+                        FileWriter fr = new FileWriter(file, true);
+                        BufferedWriter logWriter = new BufferedWriter(fr);
+                        logWriter.write("A new order placed by " + clientX.getFirstName() + " " + clientX.getLastName() + " with the total amount of " + cart.getPrice() + " RON was registered! " + formatter.format(date));
+                        logWriter.newLine();
+                        logWriter.close();
+                        fr.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 checked = true;
                 System.out.println();

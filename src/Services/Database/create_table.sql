@@ -67,5 +67,12 @@ CREATE TABLE `zarex`.`menu` (
     REFERENCES `zarex`.`product` (`id`)
     ON DELETE CASCADE);
 
+CREATE TABLE `zarex`.`order` (
+  `orderID` VARCHAR(100) NOT NULL,
+  `restaurantID` VARCHAR(100) NOT NULL,
+  `clientUsername` VARCHAR(100) NOT NULL,
+  `totalPrice` FLOAT NOT NULL,
+  PRIMARY KEY (`orderID`));
+
 
 

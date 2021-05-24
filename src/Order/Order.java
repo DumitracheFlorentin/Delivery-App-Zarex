@@ -3,21 +3,31 @@ package Order;
 import Cart.Cart;
 import Services.GenerateID;
 
+import java.util.Date;
+
 public class Order implements GenerateID {
     private String id;
     private String restaurantID;
     private String clientUsername;
-    private Cart cart;
+    private Float totalPrice;
 
-    public Order(String restaurantID, String clientUsername, Cart cart) {
+    public Order(String restaurantID, String clientUsername, Float totalPrice) {
         this.id = GenerateID.genID();
         this.restaurantID = restaurantID;
         this.clientUsername = clientUsername;
-        this.cart = cart;
+        this.totalPrice = totalPrice;
     }
 
     public Order(){
         this.id = GenerateID.genID();
+    }
+
+    public Float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public void setId(String id) {
@@ -44,20 +54,13 @@ public class Order implements GenerateID {
         this.clientUsername = clientUsername;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
-                "ID-Restaurant ='" + restaurantID + '\'' +
-                ", Client-Username = '" + clientUsername + '\'' +
-                ", Cart = '" + cart.getProducts() + '\'' +
+                "id='" + id + '\'' +
+                ", restaurantID='" + restaurantID + '\'' +
+                ", clientUsername='" + clientUsername + '\'' +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }

@@ -92,17 +92,17 @@ public class MenuMethods {
 //                e.printStackTrace();
 //            }
 
-//            try{
-//                File file = new File("log.csv");
-//                FileWriter fr = new FileWriter(file, true);
-//                BufferedWriter logWriter = new BufferedWriter(fr);
-//                logWriter.write("A client named " + client.getFirstName() + " " + client.getLastName() + " edited his personal informations! " + formatter.format(date));
-//                logWriter.newLine();
-//                logWriter.close();
-//                fr.close();
-//            } catch(IOException e) {
-//                e.printStackTrace();
-//            }
+            try{
+                File file = new File("log.csv");
+                FileWriter fr = new FileWriter(file, true);
+                BufferedWriter logWriter = new BufferedWriter(fr);
+                logWriter.write("An user with username " + client.getUsername() + " edited his personal informations! " + formatter.format(date));
+                logWriter.newLine();
+                logWriter.close();
+                fr.close();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
 
             getPersonalInfo(client);
         } else {
@@ -181,17 +181,17 @@ public class MenuMethods {
 
 
 
-//        try{
-//            File file = new File("log.csv");
-//            FileWriter fr = new FileWriter(file, true);
-//            BufferedWriter logWriter = new BufferedWriter(fr);
-//            logWriter.write("A new courier named " + courier.getFirstName() + " " + courier.getLastName() + " was created! " + formatter.format(date));
-//            logWriter.newLine();
-//            logWriter.close();
-//            fr.close();
-//        } catch(IOException e) {
-//            e.printStackTrace();
-//        }
+        try{
+            File file = new File("log.csv");
+            FileWriter fr = new FileWriter(file, true);
+            BufferedWriter logWriter = new BufferedWriter(fr);
+            logWriter.write("A new courier named " + courier.getFirstName() + " " + courier.getLastName() + " was created! " + formatter.format(date));
+            logWriter.newLine();
+            logWriter.close();
+            fr.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 //
 //        try{
 //            File file = new File("db_cars.csv");
@@ -281,22 +281,20 @@ public class MenuMethods {
                 if(listOfClients.getSpecificClient(deleteClientIn - 1).getIsAdmin()){
                     System.out.println("Error! You cannot delete this account!");
                 }else{
+                    try{
+                        File file = new File("log.csv");
+                        FileWriter fr = new FileWriter(file, true);
+                        BufferedWriter logWriter = new BufferedWriter(fr);
+                        logWriter.write("A client with username " + listOfClients.getSpecificClient(deleteClientIn - 1).getUsername() + " was deleted! " + formatter.format(date));
+                        logWriter.newLine();
+                        logWriter.close();
+                        fr.close();
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+
                     mySqlMethods.deleteSpecificUser(listOfClients, listOfClients.getSpecificClient(deleteClientIn - 1).getId());
                     listOfClients.removeClient(deleteClientIn - 1);
-
-                    System.out.println("Success!");
-
-//                    try{
-//                        File file = new File("log.csv");
-//                        FileWriter fr = new FileWriter(file, true);
-//                        BufferedWriter logWriter = new BufferedWriter(fr);
-//                        logWriter.write("A client was deleted! " + formatter.format(date));
-//                        logWriter.newLine();
-//                        logWriter.close();
-//                        fr.close();
-//                    } catch(IOException e) {
-//                        e.printStackTrace();
-//                    }
                 }
 
             }
@@ -329,22 +327,20 @@ public class MenuMethods {
             }
 
             if(deleteCourierIn > 0 && deleteCourierIn <= i){
+                try{
+                    File file = new File("log.csv");
+                    FileWriter fr = new FileWriter(file, true);
+                    BufferedWriter logWriter = new BufferedWriter(fr);
+                    logWriter.write("A courier named " + listOfCouriers.getCourierByIndex(deleteCourierIn - 1).getFirstName() + " "  + listOfCouriers.getCourierByIndex(deleteCourierIn - 1).getLastName() + " was deleted! " + formatter.format(date));
+                    logWriter.newLine();
+                    logWriter.close();
+                    fr.close();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+
                 mySqlMethods.deleteSpecificCourier(listOfCouriers, listOfCouriers.getCourierByIndex(deleteCourierIn - 1).getId());
                 listOfCouriers.removeCourier(deleteCourierIn - 1);
-                System.out.println("Success!");
-
-//                try{
-//                    File file = new File("log.csv");
-//                    FileWriter fr = new FileWriter(file, true);
-//                    BufferedWriter logWriter = new BufferedWriter(fr);
-//                    logWriter.write("A courier was deleted! " + formatter.format(date));
-//                    logWriter.newLine();
-//                    logWriter.close();
-//                    fr.close();
-//                } catch(IOException e) {
-//                    e.printStackTrace();
-//                }
-
             }
         } else {
             System.out.println("There is no courier registered to the DB!");

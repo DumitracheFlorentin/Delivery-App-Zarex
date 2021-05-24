@@ -1,11 +1,14 @@
 package Services.Database;
 
+import Cart.Cart;
 import Order.ListOfProducts;
+import Order.Order;
 import Restaurant.Product;
 import Restaurant.Restaurant;
 import Restaurant.ListOfMenus;
 import Restaurant.BridgeTableMenu;
 import Restaurant.ListOfRestaurants;
+import Order.ListOfOrders;
 import User.*;
 
 import java.sql.*;
@@ -593,4 +596,78 @@ public class DbFromMySQL {
             e.printStackTrace();
         }
     }
+
+    /*-------------- ORDER --------------*/
+
+    public void createOrder(Order order){
+        try (Connection connection = getConnection()) {
+            String query = "INSERT into orderinfo(orderID, restaurantID, clientUsername, totalPrice) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, order.getId());
+            stmnt.setString(2, order.getRestaurantID());
+            stmnt.setString(3, order.getClientUsername());
+            stmnt.setFloat(4, order.getTotalPrice());
+            stmnt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readOrder(ListOfOrders listOfOrders){
+        try (Connection connection = this.getConnection()) {
+            Statement stmnt = connection.createStatement();
+
+            String query = "SELECT * FROM orderinfo";
+            ResultSet resSet = stmnt.executeQuery(query);
+
+            while(resSet.next()){
+                Order orderX = new Order();
+                orderX.setId(resSet.getString(1));
+                orderX.setRestaurantID(resSet.getString(2));
+                orderX.setClientUsername(resSet.getString(3));
+                orderX.setTotalPrice(resSet.getFloat(4));
+                listOfOrders.addOrder(orderX);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateOrder(Order orderX){
+        try (Connection connection = this.getConnection()) {
+            String query = "UPDATE orderinfo SET restaurantID = ?, clientUsername = ?, totalPrice = ? WHERE orderID = ?;";
+            PreparedStatement stmnt = connection.prepareStatement(query);
+            stmnt.setString(1, orderX.getRestaurantID());
+            stmnt.setString(2, orderX.getClientUsername());
+            stmnt.setFloat(4, orderX.getTotalPrice());
+            stmnt.setString(5, orderX.getId());
+
+            stmnt.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSpecificOrder(ListOfOrders listOfOrders, String id){
+        try (Connection connection = getConnection()) {
+            boolean check = false;
+
+            for(int i = 0 ; i < listOfOrders.sizeOfList() ; i++){
+                if(listOfOrders.getOrderByIndex(i).getId().equalsIgnoreCase(id)){
+                    check = true;
+                }
+            }
+
+            if(check){
+                String query = "DELETE from orderinfo WHERE orderID like ?;";
+                PreparedStatement stmnt = connection.prepareStatement(query);
+                stmnt.setString(1, id);
+                stmnt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

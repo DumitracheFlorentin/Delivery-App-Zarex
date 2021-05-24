@@ -47,7 +47,7 @@ public class InitServices {
 
     // Init DB
     // DbFromScript firstDBConnection = new DbFromScript();
-     DbFromCSVFiles secondDBConnection = new DbFromCSVFiles();
+    //DbFromCSVFiles secondDBConnection = new DbFromCSVFiles();
      DbFromMySQL mySqlMethods = new DbFromMySQL();
 
     // METHODS
@@ -91,7 +91,7 @@ public class InitServices {
         mySqlMethods.readMenu(listOfBridgeMenus);
         mySqlMethods.readRestaurant(listOfRestaurants);
         getMenus.getMenus(listOfRestaurants, listOfBridgeMenus, listOfProducts);
-
+        mySqlMethods.readOrder(listOfOrders);
 
         // Init LOG IN & REGISTER SYSTEM
         String option = "";
@@ -178,17 +178,17 @@ public class InitServices {
 //                                    e.printStackTrace();
 //                                }
 
-//                                try{
-//                                    File file = new File("log.csv");
-//                                    FileWriter fr = new FileWriter(file, true);
-//                                    BufferedWriter logWriter = new BufferedWriter(fr);
-//                                    logWriter.write("A client named " + listOfClients.getSpecificClient(i).getFirstName() + " " + listOfClients.getSpecificClient(i).getLastName() + " edited his personal informations! " + formatter.format(date));
-//                                    logWriter.newLine();
-//                                    logWriter.close();
-//                                    fr.close();
-//                                } catch(IOException e) {
-//                                    e.printStackTrace();
-//                                }
+                                try{
+                                    File file = new File("log.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter logWriter = new BufferedWriter(fr);
+                                    logWriter.write("An user with username " + listOfClients.getSpecificClient(i).getUsername() + " edited his personal informations! " + formatter.format(date));
+                                    logWriter.newLine();
+                                    logWriter.close();
+                                    fr.close();
+                                } catch(IOException e) {
+                                    e.printStackTrace();
+                                }
 
                             }else if(secOptionIn.equalsIgnoreCase("2")){
                                 methodsMenu.showMenu(listOfClients.getSpecificClient(i));
@@ -251,17 +251,17 @@ public class InitServices {
 //                                    e.printStackTrace();
 //                                }
 
-//                                try{
-//                                    File file = new File("log.csv");
-//                                    FileWriter fr = new FileWriter(file, true);
-//                                    BufferedWriter logWriter = new BufferedWriter(fr);
-//                                    logWriter.write("A client named " + listOfClients.getSpecificClient(i).getFirstName() + " " + listOfClients.getSpecificClient(i).getLastName() + " edited his personal informations! " + formatter.format(date));
-//                                    logWriter.newLine();
-//                                    logWriter.close();
-//                                    fr.close();
-//                                } catch(IOException e) {
-//                                    e.printStackTrace();
-//                                }
+                                try{
+                                    File file = new File("log.csv");
+                                    FileWriter fr = new FileWriter(file, true);
+                                    BufferedWriter logWriter = new BufferedWriter(fr);
+                                    logWriter.write("An user with username " + listOfClients.getSpecificClient(i).getUsername() + " edited his personal informations! " + formatter.format(date));
+                                    logWriter.newLine();
+                                    logWriter.close();
+                                    fr.close();
+                                } catch(IOException e) {
+                                    e.printStackTrace();
+                                }
 
                                 System.out.println("Now you can come back to make an order!");
                             } else {
